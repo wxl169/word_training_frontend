@@ -13,7 +13,7 @@
 import { computed, h, onMounted, ref } from 'vue';
 import {
     HomeOutlined, AppstoreOutlined, SettingOutlined, UserOutlined, ReadOutlined, LaptopOutlined, ReconciliationOutlined,
-    TagOutlined, ProfileOutlined, ExclamationCircleFilled, BookOutlined, PartitionOutlined, VerifiedOutlined
+    TagOutlined, ProfileOutlined, ExclamationCircleFilled, BookOutlined, PartitionOutlined, VerifiedOutlined,BankOutlined
 } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import type { MenuProps } from 'ant-design-vue';
@@ -77,6 +77,31 @@ const items = ref([
                 label: '错题库',
             },
         ],
+    },
+    //社区
+     //单词库
+     {
+        key: 'community',
+        icon: () => h(BankOutlined),
+        label: '社区',
+        title: 'community',
+        path: '/community/home',
+        // children: [
+        //     {
+        //         key: 'word_bank',
+        //         path: '/word/bank',
+        //         title: 'word_bank',
+        //         icon: () => h(ReadOutlined),
+        //         label: '单词百科',
+        //     },
+        //     {
+        //         key: 'error_word_bank',
+        //         path: '/word/bank/error',
+        //         title: 'error_word_bank',
+        //         icon: () => h(ReconciliationOutlined),
+        //         label: '错题库',
+        //     },
+        // ],
     },
     //系统管理
     {
@@ -148,7 +173,7 @@ const items = ref([
 
 const handleClick: MenuProps['onClick'] = menuInfo => {
     router.push(menuInfo.item.path);
-    selectedKeys.value = [menuInfo.item.key];  
+    selectedKeys.value = [menuInfo.item.originItemValue.title];  
     localStorage.setItem('selectedKeys', JSON.stringify(selectedKeys.value));  
 };
 

@@ -1,21 +1,22 @@
 <template>
-    <a-layout class="layout">
-        <a-layout-header style="display: flex; align-items: center;"  >
-            <Logo style="margin-right: 150px;" />
-            <!--根据路由动态生成菜单-->
-            <Menu  :collapse="LayOutSettingStore.fold ? true : false"></Menu>
-        </a-layout-header>
+   <a-layout class="layout">
+    <a-layout-header style="display: flex; align-items: center;">
+        <Logo style="margin-right: 150px;" />
+        <!-- 根据路由动态生成菜单 -->
+        <Menu :collapse="LayOutSettingStore.fold ? true : false"></Menu>
+    </a-layout-header>
 
-        <a-layout-content>    
-            <div class="layout_content" :class="{ fold: LayOutSettingStore.fold ? true : false }">
-                <Main></Main>
-            </div>
-        </a-layout-content>
+    <a-layout-content>    
+        <div class="layout_content" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+            <Main></Main>
+        </div>
+    </a-layout-content>
 
-        <a-layout-footer style="text-align: center">
-            word_training_system ©2024 Created by cqie_wxl
-        </a-layout-footer>
-    </a-layout>
+    <a-layout-footer style="text-align: center; position: fixed; bottom: 0; left: 0; right: 0;">
+        英语单词训练系统 ©2024 Created by cqie_wxl
+    </a-layout-footer>
+</a-layout>
+
 </template>
 
   
@@ -69,8 +70,7 @@ let $route = useRoute();
 
 .layout_content {
     background: #fff;
-    padding: 24px;
-    height: calc(100vh - 100px)
+    padding: 0 24px 24px 24px;
 }
 
 .logo-img {

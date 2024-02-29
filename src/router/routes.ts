@@ -14,7 +14,6 @@ export const constantRoute = [
 
   //注册
   {
-    
     path: "/register",
     component: () => import("@/views/user/register/index.vue"),
     name: "register",
@@ -22,6 +21,30 @@ export const constantRoute = [
       title: "注册", //菜单标题
       hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
     },
+  },
+  
+  //个人详情
+  {
+    path: "/layout/detail",
+    component: () => import("@/layout/index.vue"),
+    name: "layout_detail",
+    meta: {
+      title: "", //菜单标题
+      hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+      icon:"",
+    },
+    redirect: '/user/detail',
+    children: [
+      {
+        path: "/user/detail",
+        name: "user_detail",
+        component: () => import("@/views/user/detail/index.vue"),
+        meta: {
+          title: "个人信息", //菜单标题
+          hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+        },
+      },
+    ],
   },
 
   //首页
@@ -69,6 +92,15 @@ export const constantRoute = [
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
         },
       },
+      {
+        path: "/word/training/modeSelect",
+        name: "mode_select", 
+        component: () => import("@/views/word_training/mode_selection/index.vue"),
+        meta: {
+          title: "模式选择", //菜单标题
+          hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+        },
+      }
     ],
   },
 
@@ -102,6 +134,30 @@ export const constantRoute = [
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
         },
       },
+    ],
+  },
+
+  //社区
+  {
+    path: "/community",
+    component: () => import("@/layout/index.vue"),
+    name: "layout_community",
+    meta: {
+      title: "", //菜单标题
+      hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+      icon:"",
+    },
+    redirect: '/community/home',
+    children: [
+      {
+        path: "/community/home",
+        name: "community_home", 
+        component: () => import("@/views/community/index.vue"),
+        meta: {
+          title: "社区", //菜单标题
+          hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+        },
+      }
     ],
   },
 

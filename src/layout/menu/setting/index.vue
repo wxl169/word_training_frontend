@@ -22,6 +22,10 @@
       <template #overlay>
         <a-menu>
           <a-menu-item>
+            <RouterLink to="/user/detail">个人信息</RouterLink>
+            <!-- <a @click="">个人信息</a> -->
+          </a-menu-item>
+          <a-menu-item>
             <a @click="logout">退出登录</a>
           </a-menu-item>
         </a-menu>

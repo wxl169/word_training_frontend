@@ -16,7 +16,7 @@ import pinia from './store'
 const userStore = useUserStore(pinia)
 
 //未登录允许查看的路径
-const redirectPaths = ['/login', '/register', '/home', '/word/training', '/word/bank'];
+const redirectPaths = ['/login', '/register', '/home', '/word/training', '/word/bank','/community/home','/word/training/modeSelect'];
 
 
 //全局守卫:项目当中任意路由切换都会触发的钩子
@@ -41,7 +41,7 @@ router.beforeEach(async (to: any, from: any, next: any) => {
     if (to.path == '/login') {
       next({ path: '/' })
     } else {
-      //登录成功访问其余六个路由(登录排除)
+      //登录成功访问其余六个路由(登录排除) 
       //有用户信息
       if (username) {
         //放行
