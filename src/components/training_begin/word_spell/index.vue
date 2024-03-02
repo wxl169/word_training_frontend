@@ -1,6 +1,6 @@
 <template>
     <div>
-            <h1>社区</h1>
+            <h1>填空拼写</h1>
     </div>
 </template>
 

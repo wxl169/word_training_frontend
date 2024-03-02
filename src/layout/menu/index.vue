@@ -79,30 +79,13 @@ const items = ref([
         ],
     },
     //社区
-     //单词库
      {
-        key: 'community',
+        key: 'article',
         icon: () => h(BankOutlined),
         label: '社区',
-        title: 'community',
-        path: '/community/home',
-        // children: [
-        //     {
-        //         key: 'word_bank',
-        //         path: '/word/bank',
-        //         title: 'word_bank',
-        //         icon: () => h(ReadOutlined),
-        //         label: '单词百科',
-        //     },
-        //     {
-        //         key: 'error_word_bank',
-        //         path: '/word/bank/error',
-        //         title: 'error_word_bank',
-        //         icon: () => h(ReconciliationOutlined),
-        //         label: '错题库',
-        //     },
-        // ],
-    },
+        title: 'article',
+        path: '/article/home',
+     },
     //系统管理
     {
         key: 'system',

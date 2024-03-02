@@ -1,14 +1,13 @@
 //对外暴露配置路由(常量路由):全部用户都可以访问到的路由
-export const constantRoute = [ 
+export const constantRoute = [
   //登录
   {
-   
     path: "/login",
     component: () => import("@/views/user/login/index.vue"),
     name: "login",
     meta: {
       title: "登录", //菜单标题
-      hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏 
+      hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
     },
   },
 
@@ -22,7 +21,7 @@ export const constantRoute = [
       hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
     },
   },
-  
+
   //个人详情
   {
     path: "/layout/detail",
@@ -31,9 +30,9 @@ export const constantRoute = [
     meta: {
       title: "", //菜单标题
       hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-      icon:"",
+      icon: "",
     },
-    redirect: '/user/detail',
+    redirect: "/user/detail",
     children: [
       {
         path: "/user/detail",
@@ -55,9 +54,9 @@ export const constantRoute = [
     meta: {
       title: "", //菜单标题
       hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-      icon:"",
+      icon: "",
     },
-    redirect: '/home',
+    redirect: "/home",
     children: [
       {
         path: "/home",
@@ -79,13 +78,13 @@ export const constantRoute = [
     meta: {
       title: "", //菜单标题
       hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-      icon:"",
+      icon: "",
     },
-    redirect: '/word/training',
+    redirect: "/word/training",
     children: [
       {
         path: "/word/training",
-        name: "word_training", 
+        name: "word_training",
         component: () => import("@/views/word_training/index.vue"),
         meta: {
           title: "单词训练", //菜单标题
@@ -94,13 +93,34 @@ export const constantRoute = [
       },
       {
         path: "/word/training/modeSelect",
-        name: "mode_select", 
-        component: () => import("@/views/word_training/mode_selection/index.vue"),
+        name: "mode_select",
+        component: () =>
+          import("@/views/word_training/mode_selection/index.vue"),
         meta: {
           title: "模式选择", //菜单标题
           hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
         },
-      }
+      },
+      {
+        path: "/word/training/trainingBegin",
+        name: "training_begin",
+        component: () =>
+          import("@/views/word_training/training_begin/index.vue"),
+        meta: {
+          title: "训练开始", //菜单标题
+          hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+        },
+      },
+      {
+        path: "/word/training/typeSelection",
+        name: "type_selection",
+        component: () =>
+          import("@/views/word_training/type_selection/index.vue"),
+        meta: {
+          title: "类别选择", //菜单标题
+          hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+        },
+      },
     ],
   },
 
@@ -112,13 +132,13 @@ export const constantRoute = [
     meta: {
       title: "", //菜单标题
       hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-      icon:"",
+      icon: "",
     },
-    redirect: '/word/bank',
+    redirect: "/word/bank",
     children: [
       {
         path: "/word/bank",
-        name: "word_bank", 
+        name: "word_bank",
         component: () => import("@/views/word_bank/index.vue"),
         meta: {
           title: "单词库", //菜单标题
@@ -127,7 +147,7 @@ export const constantRoute = [
       },
       {
         path: "/word/bank/error",
-        name: "word_bank_error", 
+        name: "word_bank_error",
         component: () => import("@/views/word_bank/error_word/index.vue"),
         meta: {
           title: "错题库", //菜单标题
@@ -139,25 +159,34 @@ export const constantRoute = [
 
   //社区
   {
-    path: "/community",
+    path: "/article",
     component: () => import("@/layout/index.vue"),
-    name: "layout_community",
+    name: "layout_article",
     meta: {
       title: "", //菜单标题
       hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-      icon:"",
+      icon: "",
     },
-    redirect: '/community/home',
+    redirect: "/article/home",
     children: [
       {
-        path: "/community/home",
-        name: "community_home", 
-        component: () => import("@/views/community/index.vue"),
+        path: "/article/home",
+        name: "article_home",
+        component: () => import("@/views/article/index.vue"),
         meta: {
           title: "社区", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
         },
-      }
+      },
+      {
+        path: "/article/write",
+        name: "article_write",
+        component: () => import("@/views/article/article_write/index.vue"),
+        meta: {
+          title: "分享文章", //菜单标题
+          hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+        },
+      },
     ],
   },
 
@@ -169,9 +198,9 @@ export const constantRoute = [
     meta: {
       title: "系统管理",
       hidden: false,
-      icon:"LockOutlined",
+      icon: "LockOutlined",
     },
-    redirect: '/system/user',
+    redirect: "/system/user",
     children: [
       {
         path: "/system/user",
@@ -180,7 +209,7 @@ export const constantRoute = [
         meta: {
           title: "用户管理", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-          icon:"UserOutlined",
+          icon: "UserOutlined",
         },
       },
       {
@@ -190,7 +219,7 @@ export const constantRoute = [
         meta: {
           title: "单词管理", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-          icon:"ReadOutlined",
+          icon: "ReadOutlined",
         },
       },
       {
@@ -200,7 +229,7 @@ export const constantRoute = [
         meta: {
           title: "单词类型管理", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-          icon:"HomeOutlined",
+          icon: "HomeOutlined",
         },
       },
       {
@@ -210,7 +239,7 @@ export const constantRoute = [
         meta: {
           title: "文章管理", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-          icon:"HomeOutlined",
+          icon: "HomeOutlined",
         },
       },
       {
@@ -220,7 +249,7 @@ export const constantRoute = [
         meta: {
           title: "标签管理", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-          icon:"HomeOutlined",
+          icon: "HomeOutlined",
         },
       },
       {
@@ -230,7 +259,7 @@ export const constantRoute = [
         meta: {
           title: "任务管理", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-          icon:"HomeOutlined",
+          icon: "HomeOutlined",
         },
       },
       {
@@ -240,7 +269,7 @@ export const constantRoute = [
         meta: {
           title: "勋章管理", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-          icon:"HomeOutlined",
+          icon: "HomeOutlined",
         },
       },
       {
@@ -250,13 +279,13 @@ export const constantRoute = [
         meta: {
           title: "投诉管理", //菜单标题
           hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-          icon:"HomeOutlined",
+          icon: "HomeOutlined",
         },
       },
     ],
   },
 
-//404
+  //404
   {
     path: "/404",
     component: () => import("@/views/404/index.vue"),

@@ -62,6 +62,11 @@ export type IdRequest = {
   id:number
 }
 
+export type WordTypeChilderListVO = {
+  id: number;
+  typeName: string;
+}
+
 // -----------------------------------返回数据类型------------------------------------
 
 //管理员获取用户列表信息
@@ -90,3 +95,11 @@ export type BaseResponseGetWordTypeListVO = {
   data?: WordTypeListVO[];
   message?: string;
 };
+
+//获取所有子类型数据列表
+export type BaseResponseGetWordTypeChilderListVO = {
+  code?: number;
+  data?: WordTypeChilderListVO[];
+  message?: string;
+};
+

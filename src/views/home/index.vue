@@ -1,33 +1,34 @@
 <template>
-    <a-card style="margin-top: 20px; border-radius: 8px;">
-        <div style="
+  <div id="home">
+    <a-card style="margin-top: 20px; border-radius: 8px;background-color: transparent;" >
+      <div style="
           background-position: 100% -30%;
           background-repeat: no-repeat;
           background-size: 274px auto;
         ">
-            <a-row type="flex" justify="center">
-                <a-col :span="24">
-                    <a-typography-title style="text-align: center;">🎉欢迎使用英语单词训练系统 🎉</a-typography-title>
-                </a-col>
-            </a-row>
-            <div
-                style="font-size: 20pxpx; line-height: 22px; margin-top: 16px; margin-bottom: 32px; width: 100%;margin-left: 100px;">
-                <a-typography strong>
-                    <a-typography :level="2" style="font-size: 20px;">英语单词训练系统是一款 🛠</a-typography>
-                    <a-typography :level="3">
-                        💼
-                        <br />
-                        💻
-                        <br />
-                        🤝
-                        <br />
-                        📈
-                        <br />
-                        🏁
-                    </a-typography>
-                </a-typography>
-            </div>
-            <!-- <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <a-row type="flex" justify="center">
+          <a-col :span="24">
+            <a-typography-title style="text-align: center;">🎉欢迎使用英语单词训练系统 🎉</a-typography-title>
+          </a-col>
+        </a-row>
+        <div
+          style="font-size: 20pxpx; line-height: 22px; margin-top: 16px; margin-bottom: 32px; width: 100%;margin-left: 100px;">
+          <a-typography strong>
+            <a-typography :level="2" style="font-size: 20px;">英语单词训练系统是一款 🛠</a-typography>
+            <a-typography :level="3">
+              💼
+              <br />
+              💻
+              <br />
+              🤝
+              <br />
+              📈
+              <br />
+              🏁
+            </a-typography>
+          </a-typography>
+        </div>
+        <!-- <div style="display: flex; flex-wrap: wrap; gap: 16px;">
           <a-card
             index="1"
             href="https://api.qimuu.icu/"
@@ -53,8 +54,9 @@
             :desc="<a-typography strong>平台引入了讯飞星火 AI，能帮助您快速分析 Excel 表数据变化趋势等信息。</a-typography>"
           />
         </div> -->
-        </div>
+      </div>
     </a-card>
+  </div>
 </template>
   
 <script lang="ts" setup>
@@ -64,6 +66,14 @@
 </script>
   
 <style scoped>
+#home {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: url('@/assets/images/background.png') no-repeat;
+  background-size: cover;
+}
+
 /* 样式 */
 </style>
   

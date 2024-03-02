@@ -9,7 +9,8 @@ import type {
     WordTypeAddRequest,
     BaseResponseGetWordTypeListVO,
     BaseResponseWordTypeGroupAll,
-    IdRequest
+    IdRequest,
+    BaseResponseGetWordTypeChilderListVO
 } from './type'
 //项目用户相关的请求地址
 enum API {
@@ -44,3 +45,6 @@ export const getWordTypeGroupAll = () => request.get<any,BaseResponseWordTypeGro
 
 //根据id获取类型信息
 export const getWordTypeByOne = (data:IdRequest) => request.post<any,BaseResponseWordTypeGroupAll>(API.GET_WORD_TYPE_ONE_URL,data);
+
+//获取所有子类型信息
+export const getWordTypeChilderList = () => request.get<any,BaseResponseGetWordTypeChilderListVO>(API.GET_WORD_TYPE_LIST_ALL_URL);
