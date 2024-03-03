@@ -6,7 +6,7 @@
             </template>
             <template #title>
                 <a-row>
-                    <span style="font-size: 25px; font-weight: bold; sans-serif;">用户管理</span>
+                    <span style="font-size: 25px; font-weight: bold;" sans-serif>用户管理</span>
                     <!-- 搜索栏 -->
                     <a-form layout="inline" style="margin-left: 30px;padding-top: 10px;" :model="formState">
                         <a-form-item label="用户账号">
@@ -323,7 +323,7 @@ const onDelete = async (key: number) => {
         const response = await deleteUser(DeleteRequest);
         if (response.code === 0 && response.data) {
             // 接受数据成功  
-            message.success(response.message || '删除用户成功');
+            message.success( '删除用户成功');
             getUserListAll(formState)
         } else {
             // 处理错误  

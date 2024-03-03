@@ -54,14 +54,13 @@
                     </a-form-item>
                     <!-- 封面 -->
                     <a-form-item name="image">
-
                         <template #label>
                             <span style="font-size: 20px;">封面</span>
                         </template>
                         <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card"
                             class="avatar-uploader" :show-upload-list="false" :before-upload="beforeUpload"
                             @change="handleChange" :maxCount="1" :customRequest="uploadArticleImage">
-                            <img v-if="formState.cover_image" :src="formState.cover_image" alt="avatar"
+                            <img v-if="formState.coverImage" :src="formState.coverImage" alt="avatar"
                                 style="width: 100px;height: 100px;" />
                             <div v-else>
                                 <loading-outlined v-if="loading"></loading-outlined>
@@ -127,7 +126,7 @@ const formState: UnwrapRef<ArticleAddRequest> = reactive({
     content: '',//内容
     description: '',//描述
     tags: [],//标签
-    cover_image: '',//封面
+    coverImage: '',//封面
     permissions: 0,//权限
 });
 
@@ -185,7 +184,7 @@ const submitForm = async () => {
                 const editor = editorRef.value
                 if (editor == null) return
                 editor.destroy()
-                formState.cover_image = '';
+                formState.coverImage = '';
                 formState.tags = [];
                 formState.description = '';
                 formState.permissions = 0;
@@ -227,7 +226,7 @@ const handleChange = (info: UploadChangeParam) => {
     if (info.file.status === 'done') {
         // Get this url from response in real world.
         getBase64(info.file.originFileObj, (base64Url: string) => {
-            formState.cover_image = base64Url;
+            formState.coverImage = base64Url;
             loading.value = false;
         });
     }
@@ -239,9 +238,9 @@ const handleChange = (info: UploadChangeParam) => {
 //验证图片是否符合格式要求
 const handleFileChange = (file: File) => {
     // 文件上传前的处理逻辑，例如限制文件类型和大小
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
     if (!isJpgOrPng) {
-        message.error('只能上传 JPG/PNG 格式的图片');
+        message.error('只能上传 JPG/PNG/GIF 格式的图片');
         return false;
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
@@ -253,13 +252,13 @@ const handleFileChange = (file: File) => {
 };
 //上传文件前，检查文件是否符合要求
 const beforeUpload = (file: UploadProps['fileList'][number]) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
     if (!isJpgOrPng) {
-        message.error('You can only upload JPG file!');
+        message.error('请上传png、gif、jpg格式的图片!');
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+        message.error('图片大小最大不能超过 2MB!');
     }
     return isJpgOrPng && isLt2M;
 };
@@ -270,7 +269,7 @@ const uploadArticleImage = async (file: UploadProps['fileList'][number]) => {
         formData.append('avatar', file.file); // 注意这里的 'avatar' 与后端接口的参数名对应
         const response = await uploadImage(formData);
         if (response.code == 0) {
-            formState.cover_image = response.data as string
+            formState.coverImage = response.data as string
         } else {
             message.error(response.message)
         }

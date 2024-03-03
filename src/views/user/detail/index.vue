@@ -180,9 +180,9 @@ const openFileInput = () => {
 const handleFileChange = (event: { target: { files: any[]; }; }) => {
   const file = event.target.files[0];
   // 文件上传前的处理逻辑，例如限制文件类型和大小
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'|| file.type === 'image/gif';
   if (!isJpgOrPng) {
-    message.error('只能上传 JPG/PNG 格式的图片');
+    message.error('只能上传 JPG/PNG/GIF 格式的图片');
     return false;
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
