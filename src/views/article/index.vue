@@ -1,14 +1,15 @@
 <template>
     <div>
+        <!-- 条件搜索 -->
         <a-card>
             <template #title>
                 <a-row>
                     <a-form layout="inline" style="margin-left: 30px;padding-top: 10px;" :model="formState">
                         <a-form-item name="tag" label="请选择标签:">
-                            <a-select ref="select" v-model:value="formState.tagName" style="width: 250px" mode="multiple"
-                                placeholder="请选择标签">
+                            <a-select ref="select" v-model:value="formState.tagName" style="width: 250px"
+                                mode="multiple" placeholder="请选择标签">
                                 <a-select-option v-for="item in tagList" :value="item.tagName" :key="item.id">{{
-                                    item.tagName }}</a-select-option>
+                        item.tagName }}</a-select-option>
                             </a-select>
                         </a-form-item>
                         <a-form-item label="内容">
@@ -23,6 +24,7 @@
                                 搜索
                             </a-button>
                             <a-button style="margin-left: 5px;" danger @click="reset">
+
                                 <template #icon>
                                     <CloseOutlined />
                                 </template>
@@ -32,66 +34,109 @@
                     </a-form>
                 </a-row>
             </template>
+
             <template #extra>
                 <RouterLink to="/article/write">分享文章</RouterLink>
             </template>
         </a-card>
-        <a-card style="margin-top: 20px;">
-            <template #title>
-                <div style="{padding: '20px';}">
-                    <a-anchor direction="horizontal" :items="[
+        <a-layout>
+            <!-- 左侧样式 -->
+            <a-layout-content class="contentStyle">
+                <a-card style="margin-top: 20px;" class="article_all">
+                    <!-- 数据展示排行 -->
+                    <template #title>
+                        <div style="padding: '20px';">
+                            <a-anchor direction="horizontal" :items="[
                         {
                             key: 'horizontally-part-1',
-                            href: '',
+                            href: '#horizontally-part-1',
                             title: '推荐',
                         },
                         {
                             key: 'horizontally-part-2',
-                            href: '',
+                            href: '#horizontally-part-2',
                             title: '最新',
                         },
                         {
                             key: 'horizontally-part-3',
-                            href: '',
+                            href: '#horizontally-part-3',
                             title: '最热',
                         },
                     ]" />
-                </div>
-            </template>
-            Inner Card content
-        </a-card>
+                        </div>
+                    </template>
+                    <div id="article" v-for="item in data" :key="item.id">
+                        <a-card>
+                            <div style="padding: 10px 10px 10px 20px;">
+                                <!-- 头像 -->
+                                <a-row>
+                                    <a-col>
+                                        <a-avatar :size="64" :src="item.avatar"></a-avatar>
+                                    </a-col>
+                                    <a-col style="margin-top: 15px;margin-left: 5px;">
+                                        <span>{{ item.username }}</span>
+                                    </a-col>
+                                    <div v-if="item.achievementName != null">
+                                        <div v-if="item.achievementLogo != null">
+                                            <a-col style="margin-top: 14px;margin-left: 5px;">
+                                                <a-tooltip :title="item.achievementName">
+                                                    <a-avatar shape="square" style="width: 30px;height: 20px;"
+                                                        :src="item.achievementLogo">
+                                                    </a-avatar>
+                                                </a-tooltip>
+                                            </a-col>
+                                        </div>
+                                        <div v-else>
+                                            <a-tag color="pink">{{ item.achievementName }}</a-tag>
+                                        </div>
+                                    </div>
 
+                                </a-row>
+                                <!-- 标题 -->
+                                <h1>{{ item.title }}</h1>
+                                <!-- 描述 -->
+                                <p>{{ item.description }}</p>
+                                <!-- 标签 -->
+                                <div class="tag-container">
+                                    <div v-for="tag in item.tags" :key="tag">
+                                        <a-tag color="blue">{{ tag }}</a-tag>
+                                    </div>
+                                </div>
+                                <!-- 修改时间、点赞、收藏、评论 -->
+                                
+                            </div>
+                        </a-card>
+                        <br>
+                    </div>
+                    <a-pagination v-model:current="rolePage.current" :total="rolePage.total" show-less-items
+                        style="margin-top: 20px;margin-bottom: 20px;" />
+                </a-card>
+            </a-layout-content>
 
+            <!-- 右侧样式 -->
+            <a-layout-sider class="siderStyle" width="400px">ssss</a-layout-sider>
+        </a-layout>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { ArticleSelectRequest } from '@/api/article/type';
+import { selectArticleListAll } from '@/api/article';
+import type { ArticleListAllVO, ArticleSelectRequest } from '@/api/article/type';
 import { getTagVOListAll } from '@/api/tag';
 import type { TagVO } from '@/api/tag/type';
+import { message } from 'ant-design-vue';
 import { onMounted, reactive, ref, type UnwrapRef } from 'vue';
 
 //分页
 const rolePage = reactive({
-    total: 0,
     current: 1,
-    pageSize: 5,
-    showSizeChanger: true,
-    pageSizeOptions: ['5', '10', '15', '20'],
-    showTotal: (total: number) => `共有${total}条数据`,
-    //页容量改变是触发
-    onShowSizeChange: (current: number, pageSize: number) => {
-        formState.pageSize = pageSize;
-        formState.current = current;
-        rolePage.pageSize = pageSize;
-        // getUserListAll(formState)
-    },
+    total: 0,
+    pageSize: 6,
     //页数改变是触发
-    onChange: (current: number, pageSize: number) => {
-        formState.pageSize = pageSize;
+    onChange: (current: number) => {
         formState.current = current;
         rolePage.current = current;
-        // getUserListAll(formState)
+        getArticleAll(formState)
     }
 });
 
@@ -100,19 +145,18 @@ const formState: UnwrapRef<ArticleSelectRequest> = reactive({
     content: '',
     tagName: [],
     current: rolePage.current,
-    pageSize: rolePage.pageSize,
 });
 
 //搜索按钮
 const onSubmit = () => {
     formState.current = 1;
     rolePage.current = 1;
-    // getUserListAll(formState)
+    getArticleAll(formState)
 }
 
 onMounted(() => {
     //获取所有文章数据
-
+    getArticleAll(formState)
     //获取所有标签
     getTagListAll();
 })
@@ -122,10 +166,24 @@ const reset = () => {
     formState.content = '';
     formState.tagName = [];
     formState.current = 1;
-    formState.pageSize = rolePage.pageSize;
     rolePage.current = 1;
-    // getUserListAll(formState);
+    getArticleAll(formState);
 }
+
+//列表数据
+const data = ref<ArticleListAllVO[]>([]);
+//根据条件获取文章信息
+const getArticleAll = async (articleSelectRequest: ArticleSelectRequest) => {
+    const res = await selectArticleListAll(articleSelectRequest)
+    if (res.code == 0) {
+        rolePage.total = res.data?.total as number
+        data.value = res.data?.rows as [];
+    } else {
+        message.error(res.message);
+    }
+}
+
+
 
 
 const tagList = ref<TagVO[]>([]);
@@ -138,6 +196,41 @@ const getTagListAll = async () => {
 }
 
 
+
+
 </script>
 
-<style scoped></style>
+
+
+
+
+<style scoped>
+* {
+    /deep/.ant-card-body {
+        padding: 0 !important
+    }
+}
+
+.siderStyle {
+    text-align: center;
+    line-height: 120px;
+    background-color: white;
+}
+
+.contentStyle {
+    min-height: 120;
+    line-height: 120px;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: nowrap;
+    /* 防止标签换行 */
+    justify-content: flex-start;
+    /* 控制标签的对齐方式，如左对齐、右对齐等 */
+    align-items: center;
+    /* 控制标签的垂直对齐方式 */
+    gap: 1px;
+    /* 控制标签之间的间距 */
+}
+</style>

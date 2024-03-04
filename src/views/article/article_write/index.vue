@@ -79,7 +79,6 @@
                             <a-radio :value=0>公开</a-radio>
                             <a-radio :value=1>私有</a-radio>
                             <a-radio :value=2>仅关注自己的用户</a-radio>
-                            <a-radio :value=2>仅自己关注的用户</a-radio>
                         </a-radio-group>
                     </a-form-item>
                     <a-form-item :wrapper-col="{ offset: 8, span: 16 }">

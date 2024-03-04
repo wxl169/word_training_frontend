@@ -4,7 +4,6 @@ export type ArticleSelectRequest = {
   tagName: [];
   content: string;
   current: number;
-  pageSize: number;
 };
 
 export type ArticleAddRequest = {
@@ -68,6 +67,24 @@ export type ArticleVO = {
 export type ArticleUpdateReviewOpinionsRequest ={
   id:number;
   reviewOpinions:string;
+}
+
+export type ArticleListAllVO = {
+  id:number;
+  title:string;
+  userId:string;
+  avatar:string;
+  achievementName:string;
+  achievementLogo: string;
+  username:string;
+  description:string;
+  visitNumber:number;
+  praiseNumber:number;
+  commentNumber:number;
+  collectionNumber:number;
+  tags:string[];
+  coverImage:string;
+  updateTime:Date;
 }
 
 // -----------------------------------------------返回结果---------------------------------------

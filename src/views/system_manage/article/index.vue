@@ -35,7 +35,6 @@
                                 <a-select-option :value=0>公开</a-select-option>
                                 <a-select-option :value=1>私有</a-select-option>
                                 <a-select-option :value=2>仅关注自己的用户</a-select-option>
-                                <a-select-option :value=3>仅自己的关注用户</a-select-option>
                             </a-select>
                         </a-form-item>
                         <!-- 标签 -->
@@ -93,7 +92,6 @@
                     <a-tag color="orange" v-if="record.permissions === 0">公开</a-tag>
                     <a-tag color="#2db7f5" v-if="record.permissions === 1">私有</a-tag>
                     <a-tag color="#f50" v-if="record.permissions === 2"> 仅关注自己的用户</a-tag>
-                    <a-tag color="pink" v-if="record.permissions === 3"> 仅自己关注的用户</a-tag>
                 </template>
                 <!-- 标签 -->
 
