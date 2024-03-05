@@ -187,6 +187,15 @@ export const constantRoute = [
           hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
         },
       },
+      {
+        path: "/article/detail",
+        name: "article_detail",
+        component: () => import("@/views/article/article_detail/index.vue"),
+        meta: {
+          title: "文章详情", //菜单标题
+          hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+        },
+      }
     ],
   },
 

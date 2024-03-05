@@ -80,11 +80,13 @@ export type ArticleListAllVO = {
   description:string;
   visitNumber:number;
   praiseNumber:number;
+  isPraise:number;
   commentNumber:number;
   collectionNumber:number;
+  isCollection:number;
   tags:string[];
   coverImage:string;
-  updateTime:Date;
+  createTime:Date;
 }
 
 // -----------------------------------------------返回结果---------------------------------------

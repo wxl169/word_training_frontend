@@ -16,7 +16,7 @@ import pinia from './store'
 const userStore = useUserStore(pinia)
 
 //未登录允许查看的路径
-const redirectPaths = ['/login', '/register', '/home', '/word/training', '/word/bank','/article/home','/word/training/modeSelect'];
+const redirectPaths = ['/login', '/register', '/home', '/word/training', '/word/bank','/article/home','/word/training/modeSelect',"/article/detail"];
 
 
 //全局守卫:项目当中任意路由切换都会触发的钩子
