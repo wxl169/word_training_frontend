@@ -188,7 +188,7 @@ export const constantRoute = [
         },
       },
       {
-        path: "/article/detail",
+        path: "/article/detail/:id",
         name: "article_detail",
         component: () => import("@/views/article/article_detail/index.vue"),
         meta: {

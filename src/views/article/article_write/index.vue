@@ -29,7 +29,6 @@
                     </a-form-item>
                     <!-- 内容 -->
                     <a-form-item name="content">
-
                         <template #label>
                             <span style="font-size: 20px;">内容</span>
                         </template>

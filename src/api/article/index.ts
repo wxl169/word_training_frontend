@@ -1,6 +1,6 @@
 //统一管理咱们项目用户相关的接口
 import request from '@/utils/request'
-import type { ArticleAddRequest, ArticleListRequest, ArticleSelectRequest, ArticleUpdateReviewOpinionsRequest, BaseResponseArticleVO, BaseResponsePageVO, BaseResponseString } from './type'
+import type { ArticleAddRequest, ArticleListRequest, ArticleSelectRequest, ArticleUpdateReviewOpinionsRequest, BaseResponseArticleOneVO, BaseResponseArticleVO, BaseResponsePageVO, BaseResponseString } from './type'
 import type { BaseResponseBoolean } from '../user/type'
 import type { IdRequest } from '../tag/type';
 //项目用户相关的请求地址
@@ -11,7 +11,8 @@ enum API {
   UPDATE_ARTICLE_STATUS_URL = '/article/update/status',
   UPDATE_ARTICLE_REVIEWOPINIONS_URL = '/article/update/reviewOpinions',
   SELECT_ARTICLE_ID_URL = '/article/id',
-  SELECT_ARTICLE_LIST_ALL_URL = 'article/get/all'
+  SELECT_ARTICLE_LIST_ALL_URL = 'article/get/all',
+  SELECT_ARTICLE_ONE_URL = '/article/get'
 }
 
 
@@ -33,3 +34,7 @@ export const updateArticleReviewOpinions = (data:ArticleUpdateReviewOpinionsRequ
 export const selectArticleById = (data:IdRequest) => request.post<any,BaseResponseArticleVO>(API.SELECT_ARTICLE_ID_URL,data);
 //查询文章列表信息展示
 export const selectArticleListAll = (data:ArticleSelectRequest) =>request.post<any,BaseResponsePageVO>(API.SELECT_ARTICLE_LIST_ALL_URL,data);
+
+
+//根据文章id获取信息
+export const selectArticleOneById = (data:IdRequest) => request.post<any,BaseResponseArticleOneVO>(API.SELECT_ARTICLE_ONE_URL,data);

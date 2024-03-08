@@ -36,7 +36,7 @@
             </template>
 
             <template #extra>
-                <RouterLink to="/article/write">分享文章</RouterLink>
+                <RouterLink to="/article/write" style="color: blue;">分享文章</RouterLink>
             </template>
         </a-card>
         <a-layout>
@@ -348,6 +348,7 @@ const unDoCollection = async (id: number) => {
 .contentStyle {
     min-height: 120;
     line-height: 120px;
+    background-color: white;
 }
 
 .tag-container {

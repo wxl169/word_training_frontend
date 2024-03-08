@@ -18,7 +18,7 @@ export type ArticleListVO = {
   id:number;
   title:string;
   content: string;
-  userId:string;
+  userId:number;
   userAccount:string;
   description:string;
   visitNumber:number;
@@ -48,7 +48,7 @@ export type ArticleVO = {
   id:number;
   title:string;
   content: string;
-  userId:string;
+  userId:number;
   username:string;
   description:string;
   visitNumber:number;
@@ -72,7 +72,8 @@ export type ArticleUpdateReviewOpinionsRequest ={
 export type ArticleListAllVO = {
   id:number;
   title:string;
-  userId:string;
+  content: string;
+  userId:number;
   avatar:string;
   achievementName:string;
   achievementLogo: string;
@@ -89,6 +90,27 @@ export type ArticleListAllVO = {
   createTime:Date;
 }
 
+export type ArticleOneVO = {
+  id:number;
+  title:string;
+  userId:number;
+  content: string;
+  avatar:string;
+  achievementName:string;
+  achievementLogo: string;
+  username:string;
+  description:string;
+  visitNumber:number;
+  praiseNumber:number;
+  isPraise:number;
+  commentNumber:number;
+  collectionNumber:number;
+  isCollection:number;
+  isAddUser:number;
+  tags:string[];
+  coverImage:string;
+  createTime:Date;
+}
 // -----------------------------------------------返回结果---------------------------------------
 //返回图片路径
 export type BaseResponseString = {
@@ -109,3 +131,9 @@ export type BaseResponseArticleVO = {
   message?: string;
 };
 
+//根据id
+export type BaseResponseArticleOneVO = {
+  code?: number;
+  data?: ArticleOneVO;
+  message?: string;
+}

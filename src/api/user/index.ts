@@ -13,6 +13,7 @@ UserUpdateRequest,
 UserUpdateByUserRequest,
 BaseResponseString,
 } from './type'
+import type { IdRequest } from '../tag/type'
 //项目用户相关的请求地址
 enum API {
   LOGIN_URL = '/user/login',
@@ -24,6 +25,8 @@ enum API {
   UPDATE_URL = '/user/update',
   UPDATE_BY_USER_URL = '/user/update/all',
   UPLOAD_IMAGE_URL = '/upload',
+  ADD_FRIEND_URL = '/user/add/friend',
+  DELETE_FRIEND_URL = '/user/delete/friend',
 }
 
 
@@ -58,4 +61,10 @@ export const updateUserInfo = (data: UserUpdateByUserRequest) => request.post<an
 
 //修改用户图片
 export const uploadImage = (data: File) => request.post<any, BaseResponseString>(API.UPLOAD_IMAGE_URL,data)
+
+//关注用户
+export const addFriend = (data:IdRequest) => request.post<any,BaseResponseBoolean>(API.ADD_FRIEND_URL,data)
+
+//取关用户
+export const deleteFriend = (data:IdRequest) => request.post<any,BaseResponseBoolean>(API.DELETE_FRIEND_URL,data);
 
