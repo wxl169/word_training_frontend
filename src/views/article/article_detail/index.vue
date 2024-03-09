@@ -43,7 +43,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="right">
+                  <div class="right" v-if="loginUserId != articleData.userId">
                     <div v-if="articleData.isAddUser == 1">
                       <a-button type="primary" danger :icon="h(PlusOutlined)"
                         @click="unDoCare(articleData.userId)">取消关注</a-button>
@@ -86,7 +86,7 @@
                 <a-image :width="100" :src="articleData.coverImage" />
               </div>
             </div>
-            <hr>
+            <a-divider />
             <div id="content">
               <div v-html="articleData.content">
 
@@ -181,7 +181,7 @@
         </a-card>
         <!-- 评论区 -->
         <div id="message">
-          <Comment :articleId="articleData.id" ></Comment>
+          <Comment :articleId="articleData.id"></Comment>
         </div>
       </a-layout-content>
 
@@ -194,7 +194,7 @@
   <!-- 投诉框 -->
   <a-modal v-model:open="visible" title="我要举报" ok-text="举报" cancel-text="取消" @ok="onOk">
     <a-form ref="formRef" :model="formState" layout="vertical" name="form_in_modal" :rules="rules">
-      <a-form-item name="complainContent" label="举报原因" >
+      <a-form-item name="complainContent" label="举报原因">
         <a-textarea v-model:value="formState.complainContent" />
       </a-form-item>
     </a-form>
@@ -218,10 +218,12 @@ import Comment from '@/components/comment/index.vue';
 import type { ComplainAddRequest } from '@/api/complain/type';
 import type { Rule } from 'ant-design-vue/es/form';
 import { addComplain } from '@/api/complain';
+import pinia from '@/store';
+import useUserStore from '@/store/modules/user'
 
 const route = useRoute();
 const articleId = route.params.id;
-
+const loginUserId = ref(0)
 
 // 你可以使用 onMounted 钩子来在组件挂载后获取数据  
 onMounted(() => {
@@ -229,6 +231,10 @@ onMounted(() => {
     getArticleOne(articleId)
   } catch (error) {
     console.error('Error fetching article data:', error);
+  }
+  const userStore = useUserStore(pinia)
+  if (userStore.userId != null && userStore.userId > 0) {
+    loginUserId.value = userStore.userId;
   }
 });
 
@@ -342,12 +348,12 @@ const formatTime = (timeArray: number[]) => {
 //打开评论区
 const openMessage = ref(false);
 const toMessage = () => {
-  if(openMessage.value){
+  if (openMessage.value) {
     openMessage.value = false;
-  }else{
+  } else {
     openMessage.value = true;
   }
-  
+
 }
 
 
@@ -375,11 +381,11 @@ const onOk = () => {
       formState.isComplainUserId = articleData.value.userId;
       console.log(formState)
       const res = await addComplain(formState);
-      if(res.code == 0){
+      if (res.code == 0) {
         message.success("投诉成功");
         formState.complainContent = '';
         visible.value = false;
-      }else{
+      } else {
         message.error(res.message);
       }
     })
@@ -467,6 +473,4 @@ const onOk = () => {
     padding: 0 !important
   }
 }
-
-
 </style>

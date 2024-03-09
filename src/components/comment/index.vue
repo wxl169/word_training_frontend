@@ -16,7 +16,7 @@
                 <div id="commentMsg">
                     <div v-if="commentList.length == 0" class="head-message"><a-empty /></div>
                     <div v-else>
-                        <CommentChild :commentList="commentList"></CommentChild>
+                        <CommentChild :commentList="commentList" :getCommentListVOAll="getCommentListVOAll"></CommentChild>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@ const submitForm = async () => {
         message.success("发送评论成功")
         formState.content = '';
         //加载评论区
-
+        getCommentListVOAll(props.articleId);
         valueHtml.value = '';
     } else {
         message.error(res.message)

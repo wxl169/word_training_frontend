@@ -6,6 +6,11 @@ export type CommentAddRequest = {
   isTop: number;
 };
 
+export type CommentDeleteRequest = {
+  userId:number
+  commentId:number;
+}
+
 export type CommentListVO = {
   id: number;
   userId: number;
@@ -19,6 +24,7 @@ export type CommentListVO = {
   praiseNumber: number;
   commentChildList: [];
   showForm:boolean
+  articleId:number
 };
 
 

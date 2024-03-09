@@ -18,6 +18,7 @@ const userUserStore = defineStore('user',{
             username : '',
             avatar : '',
             role: '',
+            userId:0,
 
         }
     },
@@ -47,6 +48,7 @@ const userUserStore = defineStore('user',{
               this.username = result.data?.username as string;
               this.avatar = result.data?.avatar as string;
               this.role = result.data?.role as string;
+              this.userId = result.data?.id as number;
             //   //计算当前用户需要展示的异步路由
             //   const userAsyncRoute = filterAsyncRoute(
             //     cloneDeep(asnycRoute),
