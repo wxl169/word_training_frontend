@@ -46,6 +46,30 @@ export const constantRoute = [
     ],
   },
 
+  //我的发布
+  {
+    path: "/layout/release",
+    component: () => import("@/layout/index.vue"),
+    name: "layout_release",
+    meta: {
+      title: "", //菜单标题
+      hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+      icon: "",
+    },
+    redirect: "/user/release",
+    children: [
+      {
+        path: "/user/release",
+        name: "user_release",
+        component: () => import("@/views/user/release/index.vue"),
+        meta: {
+          title: "我的发布", //菜单标题
+          hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+        },
+      },
+    ],
+  },
+
   //首页
   {
     path: "/",
@@ -195,7 +219,7 @@ export const constantRoute = [
           title: "文章详情", //菜单标题
           hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
         },
-      }
+      },
     ],
   },
 

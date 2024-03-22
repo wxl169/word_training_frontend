@@ -81,8 +81,10 @@
                         </a-radio-group>
                     </a-form-item>
                     <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-                        <a-button type="primary" html-type="submit" style="width: 300px;"
-                            @click="submitForm">提交</a-button>
+                        <a-button  html-type="submit" style="width: 200px;"
+                            @click="submitForm(3)">保存草稿</a-button>
+                        <a-button type="primary" html-type="submit" style="width: 200px;margin-left: 20px;"
+                            @click="submitForm(1)">提交</a-button>
                     </a-form-item>
                 </a-form>
             </div>
@@ -126,6 +128,7 @@ const formState: UnwrapRef<ArticleAddRequest> = reactive({
     tags: [],//标签
     coverImage: '',//封面
     permissions: 0,//权限
+    status:1,//状态
 });
 
 //富文本组件处理
@@ -165,28 +168,28 @@ editorConfig.MENU_CONF['uploadImage'] = {
     timeout: 5 * 1000, // 5 秒
 }
 
-
 const formRef = ref();
 // 提交表单的方法  
-const submitForm = async () => {
+const submitForm = async (status:number) => {
     formRef.value
         .validate()
         .then(async () => {
             //获取富文本中的数据
             formState.content = valueHtml.value;
-
+            formState.status = status;
             const res = await addArticle(formState)
             if (res.code == 0 && res.data) {
                 message.success("发布文章成功")
                 formState.content = '';
-                const editor = editorRef.value
-                if (editor == null) return
-                editor.destroy()
+                // const editor = editorRef.value
+                // if (editor == null) return
+                // editor.destroy()
                 formState.coverImage = '';
                 formState.tags = [];
                 formState.description = '';
                 formState.permissions = 0;
                 formState.title = '';
+                valueHtml.value = '';
             } else {
                 message.error(res.message)
             }

@@ -77,6 +77,7 @@ declare module 'vue' {
     AUpload: typeof import('ant-design-vue/es')['Upload']
     AUploadDragger: typeof import('ant-design-vue/es')['UploadDragger']
     Chinese_selections: typeof import('./src/components/training_begin/chinese_selections/index.vue')['default']
+    Collection: typeof import('./src/components/user/collection/index.vue')['default']
     Comment: typeof import('./src/components/comment/index.vue')['default']
     CommentChild: typeof import('./src/components/commentChild/index.vue')['default']
     English_selections: typeof import('./src/components/training_begin/english_selections/index.vue')['default']

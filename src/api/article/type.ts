@@ -2,6 +2,7 @@ import type { PageVO } from "../user/type";
 
 export type ArticleSelectRequest = {
   tagName: [];
+  type:number,
   content: string;
   current: number;
 };
@@ -13,6 +14,7 @@ export type ArticleAddRequest = {
   tags: string[];
   coverImage: string;
   permissions: number;
+  status:number
 };
 export type ArticleListVO = {
   id:number;

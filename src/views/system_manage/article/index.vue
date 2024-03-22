@@ -14,36 +14,55 @@
                     <a-form layout="inline" style="margin-left: 30px;padding-top: 10px;" :model="formState">
                         <!-- 用户账号 -->
                         <a-form-item label="用户账号">
-                            <a-input placeholder="请输入用户账号" v-model:value="formState.userAccount"></a-input>
+                            <a-tooltip>
+                                <template #title>请输入用户账号</template>
+                                <a-input placeholder="请输入用户账号" v-model:value="formState.userAccount"
+                                    style="width: 150px;"></a-input>
+                            </a-tooltip>
                         </a-form-item>
                         <!-- 内容搜索 -->
                         <a-form-item label="内容搜索">
-                            <a-input placeholder="请输入需要搜索的内容" v-model:value="formState.content"></a-input>
+                            <a-tooltip>
+                                <template #title>请输入需要搜索的内容</template>
+                                <a-input placeholder="请输入需要搜索的内容" v-model:value="formState.content"></a-input>
+                            </a-tooltip>
                         </a-form-item>
                         <!-- 状态 -->
                         <a-form-item name="status" label="状态">
-                            <a-select v-model:value="formState.status" placeholder="请选择文章状态">
-                                <a-select-option :value=0>正常发布</a-select-option>
-                                <a-select-option :value=1>整改中</a-select-option>
-                                <a-select-option :value=2>整改完</a-select-option>
-                                <a-select-option :value=3>已封禁</a-select-option>
-                            </a-select>
+                            <a-tooltip>
+                                <template #title>请选择文章状态</template>
+                                <a-select v-model:value="formState.status" placeholder="请选择文章状态"
+                                    style="text-align: center;width: 100px;">
+                                    <a-select-option :value=0>正常发布</a-select-option>
+                                    <a-select-option :value=1>审核中</a-select-option>
+                                    <a-select-option :value=2>整改中</a-select-option>
+                                    <a-select-option :value=4>已封禁</a-select-option>
+                                </a-select>
+                            </a-tooltip>
                         </a-form-item>
                         <!-- 权限 -->
                         <a-form-item name="permissions" label="权限">
-                            <a-select v-model:value="formState.permissions" placeholder="请选择文章权限">
-                                <a-select-option :value=0>公开</a-select-option>
-                                <a-select-option :value=1>私有</a-select-option>
-                                <a-select-option :value=2>仅关注自己的用户</a-select-option>
-                            </a-select>
+                            <a-tooltip>
+                                <template #title>请选择文章权限</template>
+                                <a-select v-model:value="formState.permissions" placeholder="请选择文章权限"
+                                    style="text-align: center">
+                                    <a-select-option :value=0>公开</a-select-option>
+                                    <a-select-option :value=1>私有</a-select-option>
+                                    <a-select-option :value=2>仅关注自己的用户</a-select-option>
+                                </a-select>
+                            </a-tooltip>
                         </a-form-item>
                         <!-- 标签 -->
                         <a-form-item name="tag" label="请选择标签:">
-                            <a-select ref="select" v-model:value="formState.tags" style="width: 200px" mode="multiple"
-                                placeholder="请选择标签">
-                                <a-select-option v-for="item in tagList" :value="item.tagName" :key="item.id">{{
+                            <a-tooltip>
+                                <template #title>请选择标签</template>
+                                <a-select ref="select" v-model:value="formState.tags" style="width: 150px"
+                                    mode="multiple" placeholder="请选择标签">
+                                    <a-select-option v-for="item in tagList" :value="item.tagName" :key="item.id"
+                                        style="text-align: center">{{
             item.tagName }}</a-select-option>
-                            </a-select>
+                                </a-select>
+                            </a-tooltip>
                         </a-form-item>
                         <!-- 操作 -->
                         <a-form-item>
@@ -69,8 +88,15 @@
 
             <template #bodyCell="{ column, record }">
                 <!-- 封面 -->
-                <template v-if="column.key === 'coverImage' && record.coverImage != null">
-                    <img :src="record.coverImage" alt="" style="width: 50px; height: 50px;" />
+                <template v-if="column.key === 'coverImage'">
+                    <div v-if="record.coverImage == null">
+                        <a-image src="#" style="width: 50px; height: 50px;"
+                            fallback="data:image/png;base64,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" />
+                    </div>
+                    <div v-else>
+                        <a-image :src="record.coverImage" style="width: 50px; height: 50px;"
+                            fallback="data:image/png;base64,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" />
+                    </div>
                 </template>
                 <!-- 内容 -->
 
@@ -79,17 +105,15 @@
                 </template>
 
                 <!-- 状态 -->
-
                 <template v-if="column.key === 'status'">
-                    <a-tag color="blue" v-if="record.status === 0">正常发布</a-tag>
-                    <a-tag color="f50" v-if="record.status === 1">整改中</a-tag>
-                    <a-tag color="pink" v-if="record.status === 2">整改完</a-tag>
-                    <a-tag color="red" v-if="record.status === 3">已封禁</a-tag>
+                    <a-tag color="green" v-if="record.status === 0">正常发布</a-tag>
+                    <a-tag color="warning" v-if="record.status === 1">审核中</a-tag>
+                    <a-tag color="#f50" v-if="record.status === 2">整改中</a-tag>
+                    <a-tag color="red" v-if="record.status === 4">已封禁</a-tag>
                 </template>
                 <!-- 权限 -->
-
                 <template v-if="column.key === 'permissions'">
-                    <a-tag color="orange" v-if="record.permissions === 0">公开</a-tag>
+                    <a-tag color="blue" v-if="record.permissions === 0">公开</a-tag>
                     <a-tag color="#2db7f5" v-if="record.permissions === 1">私有</a-tag>
                     <a-tag color="#f50" v-if="record.permissions === 2"> 仅关注自己的用户</a-tag>
                 </template>
@@ -116,9 +140,17 @@
 
                 <template v-if="column.key === 'operation'">
                     <a-space warp>
-                        <!-- 查看详情 -->
+                         <!-- 审核通过 -->
+                         <a-tooltip title="审核通过">
+                            <a-button  size="small" @click="toPass(record.id)" v-if="record.status == 1" style=" border: 1px solid transparent;">
+                                <template #icon>
+                                    <CheckCircleTwoTone style="font-size: 20px;margin-top: 5px;"/>
+                                </template>
+                            </a-button>
+                        </a-tooltip>
+                        <!-- 文章回稿 -->
                         <a-tooltip title="文章回稿">
-                            <a-button type="primary" size="small" @click="onReply(record)">
+                            <a-button type="primary" size="small" @click="onReply(record)"  v-if="record.status == 1 || record.status == 0 || record.status == 2">
                                 <template #icon>
                                     <ExceptionOutlined />
                                 </template>
@@ -127,7 +159,7 @@
 
                         <!-- 封禁文章 -->
                         <div>
-                            <div v-if="record.status == 0 || record.status == 1">
+                            <div v-if="record.status == 0 || record.status == 1 || record.status == 2">
                                 <a-popconfirm title="确认封禁文章?" @confirm="onUpdateStatus(record.id)">
                                     <a-tooltip title="封禁文章">
                                         <a-button type="primary" size="small" danger>
@@ -174,7 +206,7 @@
     <div>
         <a-modal v-model:open="reply" ok-text="确认" cancel-text="关闭" @ok="doReply()" title="文章回稿审核意见">
             <a-form ref="formRef" :model="formUpdate" layout="vertical" name="form_in_modal">
-                <a-form-item label="审核意见" name="modifier" >
+                <a-form-item label="审核修改意见" name="reviewOpinions" :rules="[{ required: true, message: '请输入审核修改意见!' }]">
                     <a-input v-model:value="formUpdate.reviewOpinions" />
                 </a-form-item>
             </a-form>
@@ -187,11 +219,11 @@
 <script lang="ts" setup>
 import { message, type FormInstance } from 'ant-design-vue';
 import {
-    SearchOutlined, CloseOutlined, ExceptionOutlined, UnlockOutlined, LockOutlined
+    SearchOutlined, CloseOutlined, ExceptionOutlined, UnlockOutlined, LockOutlined,CheckCircleTwoTone
 } from '@ant-design/icons-vue';
 import { onMounted, reactive, ref, toRaw, type UnwrapRef } from 'vue';
 import type { ArticleListRequest, ArticleListVO, ArticleUpdateReviewOpinionsRequest } from '@/api/article/type';
-import { selectArticleById, selectArticleListVO, updateArticleReviewOpinions, updateArticleStatus } from '@/api/article';
+import { selectArticleById, selectArticleListVO, updateArticleReviewOpinions, updateArticleStatus, updateArticleStatusPass } from '@/api/article';
 import type { TagVO } from '@/api/tag/type';
 import { getTagVOListAll } from '@/api/tag';
 
@@ -469,7 +501,6 @@ const formData = ref();
 const onSelectArticleDetail = (articleListVo: ArticleListVO) => {
     visible.value = true;
     formData.value = articleListVo;
-
 }
 //弹框中：确认修改信息
 const onOk = () => {
@@ -481,13 +512,13 @@ const reply = ref(false);
 //需要修改的参数
 const formUpdate: UnwrapRef<ArticleUpdateReviewOpinionsRequest> = reactive({
     id: 0,
-    reviewOpinions:''
+    reviewOpinions: ''
 })
-const onReply = async (articleListVO:ArticleListVO) => {
+const onReply = async (articleListVO: ArticleListVO) => {
     reply.value = true;
     IdRequest.id = articleListVO.id;
     const res = await selectArticleById(IdRequest)
-    if(res.code == 0){
+    if (res.code == 0) {
         formUpdate.id = res.data?.id as number;
         formUpdate.reviewOpinions = res.data?.reviewOpinions as string;
     }
@@ -500,11 +531,11 @@ const doReply = () => {
         .validateFields()
         .then(async (values: any) => {
             const res = await updateArticleReviewOpinions(toRaw(formUpdate))
-            if(res.code == 0 && res.data){
+            if (res.code == 0 && res.data) {
                 message.success("回稿完成，已通知用户修改内容")
                 reply.value = false;
                 getArticleList(formState)
-            }else{
+            } else {
                 message.error(res.message)
             }
         })
@@ -512,6 +543,19 @@ const doReply = () => {
             console.log('Validate Failed:', info);
         });
 };
+
+//审核通过
+const toPass = async (id: number) =>{
+    IdRequest.id = id
+    const res = await updateArticleStatusPass(IdRequest)
+    if(res.code == 0 && res.data){
+        message.success("审核通过")
+        getArticleList(formState)
+    }else{
+        message.error(res.message)
+    }
+}
+
 </script>
 
 

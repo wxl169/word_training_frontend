@@ -7,8 +7,8 @@
   </a-tooltip>
 
 
-  <template v-if="userStore.username == ''"  >
-  
+  <template v-if="userStore.username == ''">
+
     <a-button type="dashed" style="margin-left:20px" @click="toLogin">登录账号</a-button>
   </template>
 
@@ -20,10 +20,12 @@
         <DownOutlined />
       </a>
       <template #overlay>
-        <a-menu>
+        <a-menu style="text-align: center;">
           <a-menu-item>
             <RouterLink to="/user/detail">个人信息</RouterLink>
-            <!-- <a @click="">个人信息</a> -->
+          </a-menu-item>
+          <a-menu-item>
+            <RouterLink to="/user/release">我的发布</RouterLink>
           </a-menu-item>
           <a-menu-item>
             <a @click="logout">退出登录</a>
@@ -87,12 +89,10 @@ const logout = async () => {
 
 //前往登录页面
 const toLogin = () => {
-//跳转到登录页面
-$router.push({ path: '/login', query: { redirect: $route.path } });
+  //跳转到登录页面
+  $router.push({ path: '/login', query: { redirect: $route.path } });
 }
 </script>
 
 
 <style scoped></style>
-  
-  

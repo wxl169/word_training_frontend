@@ -9,6 +9,7 @@ enum API {
   ADD_URL= '/article/add',
   SELECT_ARTICLE_LIST_URL = '/article/page',
   UPDATE_ARTICLE_STATUS_URL = '/article/update/status',
+  UPDATE_ARTICLE_STATUS_PASS_URL = '/article/update/status/pass',
   UPDATE_ARTICLE_REVIEWOPINIONS_URL = '/article/update/reviewOpinions',
   SELECT_ARTICLE_ID_URL = '/article/id',
   SELECT_ARTICLE_LIST_ALL_URL = 'article/get/all',
@@ -35,6 +36,7 @@ export const selectArticleById = (data:IdRequest) => request.post<any,BaseRespon
 //查询文章列表信息展示
 export const selectArticleListAll = (data:ArticleSelectRequest) =>request.post<any,BaseResponsePageVO>(API.SELECT_ARTICLE_LIST_ALL_URL,data);
 
-
+//文章审核通过
+export const updateArticleStatusPass = (data:IdRequest) => request.post<any,BaseResponseBoolean>(API.UPDATE_ARTICLE_STATUS_PASS_URL,data)
 //根据文章id获取信息
 export const selectArticleOneById = (data:IdRequest) => request.post<any,BaseResponseArticleOneVO>(API.SELECT_ARTICLE_ONE_URL,data);

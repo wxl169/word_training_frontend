@@ -2,6 +2,7 @@
     <div>
         <!-- 条件搜索 -->
         <a-card>
+            <!-- 条件搜索框 -->
             <template #title>
                 <a-row>
                     <a-form layout="inline" style="margin-left: 30px;padding-top: 10px;" :model="formState">
@@ -34,7 +35,7 @@
                     </a-form>
                 </a-row>
             </template>
-
+            <!-- 分享文章 -->
             <template #extra>
                 <RouterLink to="/article/write" style="color: blue;">分享文章</RouterLink>
             </template>
@@ -44,26 +45,25 @@
             <a-layout-content class="contentStyle">
                 <a-card style="margin-top: 20px;" class="article_all">
                     <!-- 数据展示排行 -->
-
                     <template #title>
                         <div style="padding: '20px';">
                             <a-anchor direction="horizontal" :items="[
                         {
-                            key: 'horizontally-part-1',
-                            href: '#horizontally-part-1',
+                            key: '1',
+                            href: '#article_1',
                             title: '推荐',
                         },
                         {
-                            key: 'horizontally-part-2',
-                            href: '#horizontally-part-2',
+                            key: '2',
+                            href: '#article_2',
                             title: '最新',
                         },
                         {
-                            key: 'horizontally-part-3',
-                            href: '#horizontally-part-3',
+                            key: '3',
+                            href: '#article_3',
                             title: '最热',
                         },
-                    ]" />
+                    ]" @click="handleClick" />
                         </div>
                     </template>
                     <div id="article" v-for="item in data" :key="item.id">
@@ -94,10 +94,10 @@
                                 </a-row>
                                 <div class="left">
                                     <!-- 标题 -->
-                                    <a :href="'/#/article/detail/' + item.id"  target="_blank">
+                                    <a :href="'/#/article/detail/' + item.id" target="_blank">
                                         <h1>{{ item.title }}</h1>
                                     </a>
-                                    <a :href="'/#/article/detail/' + item.id"  target="_blank">
+                                    <a :href="'/#/article/detail/' + item.id" target="_blank">
                                         <!-- 描述 -->
                                         <p>{{ item.description }}</p>
                                     </a>
@@ -167,13 +167,14 @@
                         </a-card>
                         <br>
                     </div>
-                    <a-pagination v-model:current="rolePage.current" :total="rolePage.total" show-less-items
-                        style="margin-top: 20px;margin-bottom: 20px;" />
+                    <a-pagination v-model:current="rolePage.current" :defaultPageSize="rolePage.pageSize"
+                        :total="rolePage.total" :show-less-items="true" style="margin-top: 20px;margin-bottom: 20px;"
+                        @change="rolePage.onChange" :show-total="total => `共 ${rolePage.total} 条数据`" />
                 </a-card>
             </a-layout-content>
 
             <!-- 右侧样式 -->
-            <a-layout-sider class="siderStyle" width="400px">ssss</a-layout-sider>
+            <a-layout-sider class="siderStyle" width="400px">积分排行榜</a-layout-sider>
         </a-layout>
     </div>
 </template>
@@ -187,7 +188,7 @@ import {
 import type { ArticleListAllVO, ArticleSelectRequest } from '@/api/article/type';
 import { getTagVOListAll } from '@/api/tag';
 import type { TagVO } from '@/api/tag/type';
-import { message } from 'ant-design-vue';
+import { message, type AnchorProps } from 'ant-design-vue';
 import { onMounted, reactive, ref, type UnwrapRef } from 'vue';
 import { addCollection, deleteCollection } from '@/api/collection';
 import { addPraise, deletePraise } from '@/api/praise';
@@ -197,7 +198,7 @@ const size = ref('small' as const);
 const rolePage = reactive({
     current: 1,
     total: 0,
-    pageSize: 6,
+    pageSize: 5,
     //页数改变是触发
     onChange: (current: number) => {
         formState.current = current;
@@ -209,6 +210,7 @@ const rolePage = reactive({
 //表单数据
 const formState: UnwrapRef<ArticleSelectRequest> = reactive({
     content: '',
+    type: 0,
     tagName: [],
     current: rolePage.current,
 });
@@ -231,6 +233,7 @@ onMounted(() => {
 const reset = () => {
     formState.content = '';
     formState.tagName = [];
+    formState.type = 0;
     formState.current = 1;
     rolePage.current = 1;
     getArticleAll(formState);
@@ -248,6 +251,7 @@ const getArticleAll = async (articleSelectRequest: ArticleSelectRequest) => {
         message.error(res.message);
     }
 }
+
 
 const tagList = ref<TagVO[]>([]);
 //获取所有标签
@@ -326,6 +330,29 @@ const unDoCollection = async (id: number) => {
     }
 }
 
+
+//点击锚点，切换数据
+const handleClick: AnchorProps['onClick'] = (e, link) => {
+    e.preventDefault();
+    //判断 选择的那种
+    if (link.title == "推荐") {
+        //点击了文章
+        formState.current = 1;
+        formState.type = 0;
+        rolePage.current = 1;
+        getArticleAll(formState)
+    } else if (link.title == "最新") {
+        formState.current = 1;
+        formState.type = 1;
+        rolePage.current = 1;
+        getArticleAll(formState)
+    } else if (link.title == "最热") {
+        formState.current = 1;
+        formState.type = 2;
+        rolePage.current = 1;
+        getArticleAll(formState)
+    }
+};
 </script>
 
 
@@ -392,17 +419,23 @@ const unDoCollection = async (id: number) => {
     margin-left: 10px;
 }
 
-a {  
-  color: inherit; /* 继承父元素的颜色 */  
-  text-decoration: none; /* 去除下划线 */  
-}  
-  
-a:hover {  
-  color: inherit; /* 鼠标悬停时保持颜色不变 */  
-  text-decoration: underline; /* 鼠标悬停时显示下划线 */  
-}  
-  
-a:active, a:focus {  
-  outline: 0; /* 去除点击或聚焦时的轮廓 */  
+a {
+    color: inherit;
+    /* 继承父元素的颜色 */
+    text-decoration: none;
+    /* 去除下划线 */
+}
+
+a:hover {
+    color: inherit;
+    /* 鼠标悬停时保持颜色不变 */
+    text-decoration: underline;
+    /* 鼠标悬停时显示下划线 */
+}
+
+a:active,
+a:focus {
+    outline: 0;
+    /* 去除点击或聚焦时的轮廓 */
 }
 </style>
