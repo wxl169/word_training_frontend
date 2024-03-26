@@ -186,7 +186,6 @@ const showReplyForm = (comment) => {
             record.value = comment
             // console.log("测试2", record.value)
         }
-
     }
 }
 

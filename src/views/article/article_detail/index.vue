@@ -37,7 +37,7 @@
                       <!-- 标签 -->
                       <div class="tag-container">
                         文章标签：
-                        <div v-for="tag in articleData.tags" :key="tag">
+                        <div v-for="tag in articleData.tagList" :key="tag">
                           <a-tag color="blue">{{ tag }}</a-tag>
                         </div>
                       </div>

@@ -91,6 +91,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    User_article: typeof import('./src/components/user_article/index.vue')['default']
+    User_comment: typeof import('./src/components/user_comment/index.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
     Word_spell: typeof import('./src/components/training_begin/word_spell/index.vue')['default']
     WordDetails: typeof import('./src/components/wordDetails/index.vue')['default']

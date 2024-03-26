@@ -1,45 +1,58 @@
 <template>
-    <a-card
-      style="width: 100%"
-      :tab-list="tabList"
-      :active-tab-key="key"
-      @tabChange="(key: string) => onTabChange(key, 'key')"
-    >
-      <template #customTab="item">
-        <span v-if="item.key === 'tab1'">
-          <home-outlined />
-          {{ item.tab }}
-        </span>
-      </template>
-      <div v-if="key === 'tab1'">ss</div>
-      <div v-else-if="key === 'tab2'">2</div>
+    <a-card style="width: 100%" :tab-list="tabList" :active-tab-key="key"
+        @tabChange="(key: string) => onTabChange(key, 'key')">
+        <template #customTab="item">
+            <span v-if="item.key === 'tab1'">
+                <ReadOutlined />
+                {{ item.tab }}
+            </span>
+            <span v-if="item.key === 'tab2'">
+                <MessageOutlined />
+                {{ item.tab }}
+            </span>
+        </template>
+        <!-- 文章 -->
+        <div v-if="key === 'tab1'">
+            <UserArticle></UserArticle>
+        </div>
+        <!-- 评论 -->
+        <div v-else-if="key === 'tab2'">
+            <UserComment></UserComment>
+        </div>
     </a-card>
-  </template>
-  <script lang="ts" setup>
-  import { HomeOutlined } from '@ant-design/icons-vue';
-  import { ref } from 'vue';
+
+</template>
+<script lang="ts" setup>
+import { ReadOutlined, MessageOutlined } from '@ant-design/icons-vue';
+import { ref } from 'vue';
+import UserArticle from '@/components/user_article/index.vue';
+import UserComment from '@/components/user_comment/index.vue';
 
 //   菜单栏
-  const tabList = [
+const tabList = [
     {
-      key: 'tab1',
-      tab: '文章',
+        key: 'tab1',
+        tab: '文章',
     },
     {
-      key: 'tab2',
-      tab: '评论',
+        key: 'tab2',
+        tab: '评论',
     },
-  ];
-  
-  const key = ref('tab1');
-  const noTitleKey = ref('app');
-  
-  const onTabChange = (value: string, type: string) => {
+];
+const key = ref('tab1');
+const noTitleKey = ref('app');
+//点击菜单栏更新数据
+const onTabChange = (value: string, type: string) => {
     console.log(value, type);
     if (type === 'key') {
-      key.value = value;
+        key.value = value;
     } else if (type === 'noTitleKey') {
-      noTitleKey.value = value;
+        noTitleKey.value = value;
     }
-  };
-  </script>
+};
+
+
+
+</script>
+
+<style scoped></style>
