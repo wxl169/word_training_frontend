@@ -298,6 +298,12 @@ const showConfirm = (commentId: number, userId: number) => {
         title: '您确定要删除评论吗?',
         icon: createVNode(ExclamationCircleOutlined),
         content: '如果该评论有子评论也将会被一起删除！',
+        okText() {
+            return '确定';
+        },
+        cancelText() {
+            return '取消';
+        },
         async onOk() {
             commentDeleteRequest.userId = userId;
             commentDeleteRequest.commentId = commentId

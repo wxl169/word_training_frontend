@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <a-card style="margin-top: 20px; border-radius: 8px;background-color: transparent;" >
+    <a-card style="margin-top: 20px; border-radius: 8px;background-color: transparent;">
       <div style="
           background-position: 100% -30%;
           background-repeat: no-repeat;
@@ -58,13 +58,12 @@
     </a-card>
   </div>
 </template>
-  
+
 <script lang="ts" setup>
 
 
-
 </script>
-  
+
 <style scoped>
 #home {
   width: 100%;
@@ -76,4 +75,3 @@
 
 /* 样式 */
 </style>
-  

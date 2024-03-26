@@ -277,6 +277,12 @@ const showConfirm = (articleId: number) => {
         title: '您确定要删除这篇文章吗?',
         icon: createVNode(ExclamationCircleOutlined),
         content: '当您点击确认后，文章将被删除，无法恢复！',
+        okText() {
+            return '确定';
+        },
+        cancelText() {
+            return '取消';
+        },
         async onOk() {
             idRequest.id = articleId;
             const res = await deleteArticleById(idRequest);
