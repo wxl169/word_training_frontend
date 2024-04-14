@@ -75,7 +75,7 @@ const props = defineProps(['difficulty', 'wordTypeList'])
 console.log(props.difficulty)
 console.log(props.wordTypeList)
 
-const value1 = ref<string>('a');
+const value1 = ref<string>('');
 
 onMounted(() => {
     console.log("中文选词")

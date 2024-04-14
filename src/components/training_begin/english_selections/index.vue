@@ -1,5 +1,8 @@
 <template>
-    <div style="margin-top: 10px">
+    <a-spin tip="正在生成练习题" v-if="!isShow" style="width: 100%;height: 100%;">
+        <a-alert message="正在生成练习题" description="请不要离开页面，系统正在生成英语单词练习题，离开页面将会重新等待。" style="height: 800px;"></a-alert>
+    </a-spin>
+    <div style="margin-top: 10px" v-else>
         <a-layout style="background-color: transparent">
             <a-layout-header id="headerStyle">
                 <a-row type="flex" justify="center" align="middle">
@@ -80,24 +83,20 @@ import type { SizeType } from 'ant-design-vue/es/config-provider';
 import { Modal } from 'ant-design-vue';
 const size = ref<SizeType>('small');
 
-
-
+const isShow = ref(true);
 const props = defineProps(['difficulty', 'wordTypeList'])
-console.log(props.difficulty)
-console.log(props.wordTypeList)
-
-const value1 = ref<string>('a');
+const value1 = ref<string>('');
 
 onMounted(() => {
     console.log("英文选义")
-    //组成练习题
 })
+
+
 
 // 点击提交答案，进入下一题
 const onChange = () => {
     console.log(value1.value)
 }
-
 
 // 挑战模式的倒计时
 const deadline = ref(Date.now() + 1000 * 15); // 设置15秒倒计时
@@ -106,6 +105,7 @@ const valueStyle = computed(() => ({
     fontSize: '30px',
     color: '#f50',
 }));
+
 const onFinish = () => {
     title.value = '时间结束';
     // 在这里可以添加倒计时结束后的其他逻辑

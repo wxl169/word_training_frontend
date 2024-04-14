@@ -37,6 +37,7 @@ router.beforeEach(async (to: any, from: any, next: any) => {
   //获取token,去判断用户登录、还是未登录
   const token = userStore.token;
   //获取用户名字
+  const userAccount = userStore.userAccount;
   const username = userStore.username;
   const role = userStore.role;
   const userId =userStore.userId;

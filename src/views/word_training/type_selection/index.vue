@@ -1,15 +1,17 @@
 <template>
     <div id="mode_selection">
         <div>
-            <router-link :to="{
-                path: '/word/training/modeSelect',
-                query:{
-                    mode:mode_selection
-                },
-            }">
-                <ArrowLeftOutlined style="fontSize :66px;color:black" />
-            </router-link>
-            <span class="title">请选择单词类别</span>
+            <a-space style="display: flex; align-items: center;">
+                <router-link :to="{
+                    path: '/word/training/modeSelect',
+                    query: {
+                        mode: mode_selection
+                    },
+                }" style="margin-right: auto;">
+                    <ArrowLeftOutlined style="fontSize: 66px; color: black;" />
+                </router-link>
+                <span class="title">请选择单词类别</span>
+            </a-space>
         </div>
 
         <!-- 单词类型 -->
@@ -17,25 +19,25 @@
             <a-checkbox-group v-model:value="wordTypeList" style="width: 100%;margin-top: 100px;">
                 <a-row style="margin-left: 200px;" :gutter="16">
                     <a-col :span="8">
-                        <a-checkbox class="type_select" 
-                        v-for="item in wordTypeChilderList" :key="item.id" :value="item.typeName">
+                        <a-checkbox class="type_select" v-for="item in wordTypeChilderList" :key="item.id"
+                            :value="item.typeName">
                             {{ item.typeName }}
                         </a-checkbox>
                     </a-col>
                 </a-row>
             </a-checkbox-group>
 
-            <router-link  :to="{
-                 path: '/word/training/trainingBegin',
-                        query: {
-                            mode:mode_selection,
-                            difficulty: difficulty,
-                            wordTypeList:wordTypeList
-                        }
-            }">
-                <a-button type="primary" ghost class="begin_button">开始训练</a-button>
-            </router-link >
-            
+            <router-link :to="{
+                path: '/word/training/trainingBegin',
+                query: {
+                    mode: mode_selection,
+                    difficulty: difficulty,
+                    wordList: wordList
+                }
+                }">
+                <a-button type="primary" ghost class="begin_button" @click="createTopic(wordTypeList)" >开始训练</a-button>
+            </router-link>
+
         </div>
 
 
@@ -48,6 +50,14 @@ import { useRoute } from 'vue-router'
 import { ArrowLeftOutlined } from '@ant-design/icons-vue';
 import { onMounted } from 'vue';
 import { getWordTypeChilderList } from '@/api/word/word_type';
+import { createWordTraining } from '@/api/word/word_training';
+import useUserStore from "@/store/modules/user";
+import  useTemporaryUserStore  from "@/store/modules/temporary_user";
+import pinia from "@/store";
+
+const userStore = useUserStore(pinia);
+const temporaryUserStore = useTemporaryUserStore(pinia);
+
 
 const route = useRoute()
 //游戏模式（0：英语选义，1：中文选义，2：填空拼写）
@@ -57,7 +67,7 @@ const difficulty = route.query.difficulty;
 
 const wordTypeList = ref(['四级']);
 const wordTypeChilderList = ref([])
-
+const wordList = ref([]);
 
 //获取单词类型
 onMounted(async () => {
@@ -66,8 +76,36 @@ onMounted(async () => {
         wordTypeChilderList.value = res.data;
     }
 })
+//单词题目生成条件
+const wordTriningBeginRequest = ({
+    mode: mode_selection, //模式（0：英语选义，1：中文选义，2：填空拼写）
+    difficulty: difficulty, //难度（0：训练模式，1：挑战模式）
+    wordTypeList: wordTypeList.value, //单词类型
+    temporaryUserAccount:temporaryUserStore.temporaryUserAccount,//临时用户账号
+})
 
+//生成题目
+const createTopic = async (wordTypeList:string[]) =>{
+    wordTriningBeginRequest.wordTypeList = wordTypeList;
+    temporaryUserStore.loadTemporaryUserAccountFromLocalStorage();
+     //判断是否都登陆
+     if (userStore.userAccount != "") {
+        if(temporaryUserStore.temporaryUserAccount != ""){
+            wordTriningBeginRequest.temporaryUserAccount = temporaryUserStore.temporaryUserAccount;
+            temporaryUserStore.clearAll();
+        }
+    } else {
+       //获取临时用户
+        if(temporaryUserStore.temporaryUserAccount == ""){
+            //暂无临时用户
+               temporaryUserStore.addTemporaryUserAccount();
+        }
+        wordTriningBeginRequest.temporaryUserAccount = temporaryUserStore.temporaryUserAccount;
+        wordTriningBeginRequest.isLogin = false;
+    }
+    const res = await createWordTraining(wordTriningBeginRequest);
 
+}
 </script>
 
 <style scoped>
@@ -84,6 +122,7 @@ onMounted(async () => {
     text-align: center;
     margin: 5px 0 10px 0;
     font-size: 30px;
+    margin-left: 580px;
 }
 
 .card {
@@ -91,17 +130,17 @@ onMounted(async () => {
     height: 300px;
 }
 
-.begin_button{
-    position: fixed; 
-    bottom: 80px; 
-    left: 50%; 
+.begin_button {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
     transform: translateX(-50%);
     width: 200px;
 }
-.type_select{
-    font-size:20px;
+
+.type_select {
+    font-size: 20px;
     margin-left: 50px;
     margin-top: 50px;
 }
 </style>
-    

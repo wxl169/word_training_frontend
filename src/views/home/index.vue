@@ -57,10 +57,30 @@
       </div>
     </a-card>
   </div>
+  <a-float-button tooltip="任务栏" style="width: 55px; height: 55px;" @click="showModal">
+    <template #icon>
+      <CarryOutOutlined style="font-size: 22px;" />
+    </template>
+  </a-float-button>
+  <Task v-if="open" />
 </template>
 
 <script lang="ts" setup>
+import { CarryOutOutlined } from '@ant-design/icons-vue';
+import { ref } from 'vue';
+import Task from '@/components/task/index.vue';
 
+// 定义响应式变量
+const open = ref(false);
+
+// 点击任务栏按钮显示模态框
+const showModal = () => {
+  if(open.value == true){
+     open.value = false;
+  }else{
+    open.value = true;
+  }
+};
 
 </script>
 

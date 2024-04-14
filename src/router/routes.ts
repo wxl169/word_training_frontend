@@ -126,16 +126,6 @@ export const constantRoute = [
         },
       },
       {
-        path: "/word/training/trainingBegin",
-        name: "training_begin",
-        component: () =>
-          import("@/views/word_training/training_begin/index.vue"),
-        meta: {
-          title: "训练开始", //菜单标题
-          hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
-        },
-      },
-      {
         path: "/word/training/typeSelection",
         name: "type_selection",
         component: () =>
@@ -147,7 +137,16 @@ export const constantRoute = [
       },
     ],
   },
-
+  //单词练习开始
+  {
+    path: "/word/training/trainingBegin",
+    name: "training_begin",
+    component: () => import("@/views/word_training/training_begin/index.vue"),
+    meta: {
+      title: "训练开始", //菜单标题
+      hidden: true, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+    },
+  },
   //单词库
   {
     path: "/bank",

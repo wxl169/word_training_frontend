@@ -10,7 +10,7 @@
                             <a-select ref="select" v-model:value="formState.tagName" style="width: 250px"
                                 mode="multiple" placeholder="请选择标签">
                                 <a-select-option v-for="item in tagList" :value="item.tagName" :key="item.id">{{
-                        item.tagName }}</a-select-option>
+                                    item.tagName }}</a-select-option>
                             </a-select>
                         </a-form-item>
                         <a-form-item label="内容">
@@ -48,25 +48,43 @@
                     <template #title>
                         <div style="padding: '20px';">
                             <a-anchor direction="horizontal" :items="[
-                        {
-                            key: '1',
-                            href: '#article_1',
-                            title: '推荐',
-                        },
-                        {
-                            key: '2',
-                            href: '#article_2',
-                            title: '最新',
-                        },
-                        {
-                            key: '3',
-                            href: '#article_3',
-                            title: '最热',
-                        },
-                    ]" @click="handleClick" />
+                                {
+                                    key: '1',
+                                    href: '#article_1',
+                                    title: '推荐',
+                                },
+                                {
+                                    key: '2',
+                                    href: '#article_2',
+                                    title: '最新',
+                                },
+                                {
+                                    key: '3',
+                                    href: '#article_3',
+                                    title: '最热',
+                                },
+                            ]" @click="handleClick" />
                         </div>
                     </template>
-                    <div id="article" v-for="item in data" :key="item.id">
+                    <div v-if="data.length == 0">
+                        <a-empty
+                            image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                            :image-style="{
+                                height: '60px',
+                            }">
+                            <template #description>
+                                <span>
+                                    暂无用户发布文章，请前往
+                                    <router-link :to="{ path: '/article/write' }" style="color: blue;">
+                                        分享文章
+                                    </router-link>
+                                    &nbsp;处发布文章
+                                </span>
+                            </template>
+                        </a-empty>
+                    </div>
+
+                    <div id="article" v-for="item in data" :key="item.id" v-else>
                         <a-card>
                             <div style="padding: 10px 10px 10px 20px;">
                                 <!-- 头像 -->
@@ -167,6 +185,7 @@
                         </a-card>
                         <br>
                     </div>
+
                     <a-pagination v-model:current="rolePage.current" :defaultPageSize="rolePage.pageSize"
                         :total="rolePage.total" :show-less-items="true" style="margin-top: 20px;margin-bottom: 20px;"
                         @change="rolePage.onChange" :show-total="total => `共 ${rolePage.total} 条数据`" />

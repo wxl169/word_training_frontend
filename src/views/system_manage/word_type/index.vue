@@ -370,6 +370,9 @@ const onAdd = () => {
                 formAdd.typeName = '';
                 formAdd.id = undefined;
                 getWordTypeListAll(wordTypeList);
+                if(formAdd.isGroupName == 1){
+                    getWordTypeGroupAlls();
+                }
             } else {
                 message.error(res.message);
             }

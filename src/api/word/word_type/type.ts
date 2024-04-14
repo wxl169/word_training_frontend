@@ -1,4 +1,4 @@
-import exp from "constants";
+
 
 //单词类型参数类型
 export type WordTypeListAllVO = {

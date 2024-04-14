@@ -16,23 +16,32 @@
         href: '#collection',
         title: '收藏夹',
       },
-    ]"  @click="handleClick2"/>
+    ]" @click="handleClick2" />
   </div>
 
   <!-- 个人信息 -->
   <a-card hoverable style="width: 100%; margin-top: 10px" title="个人信息" id="user-info">
     <template #extra>
-      <!-- 用户信息修改 -->
+      <!-- 修改操作 -->
       <div>
         <a-button type="primary" @click="onUpdate()">修改信息</a-button>
+        <a-button danger @click="onUpdatePassword()" style="margin-left: 10px">修改密码</a-button>
+              <!-- 用户信息修改 -->
         <a-modal v-model:open="visible" title="个人信息修改" ok-text="确认" cancel-text="取消" @ok="onOk">
           <a-form ref="formRef" :model="formState" layout="vertical" name="form_in_modal">
-
             <a-form-item name="username" label="姓名" :rules="[{ required: true, message: '请输入您的用户名!' }]">
               <a-input v-model:value="formState.username" />
             </a-form-item>
             <a-form-item name="birthday" label="出生日期">
               <a-date-picker v-model:value="formState.birthday" value-format="YYYY-MM-DD" />
+            </a-form-item>
+            <a-form-item label="手机号" name="phone"
+              :rules="[{ pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/, message: '手机号格式不正确' }]">
+              <a-input v-model:value="formState.phone" placeholder="请输入手机号"></a-input>
+            </a-form-item>
+
+            <a-form-item label="邮箱" name="email" :rules="[{ type: 'email', message: '邮箱格式不正确' }]">
+              <a-input v-model:value="formState.email" placeholder="请输入邮箱"></a-input>
             </a-form-item>
             <a-form-item name="gender" label="性别" class="collection-create-form_last-form-item"
               :rules="[{ required: true, message: '请输入您的性别!' }]">
@@ -43,17 +52,47 @@
             </a-form-item>
           </a-form>
         </a-modal>
+        <!-- 修改密码 -->
+        <a-modal v-model:open="visible_password" title="修改密码" ok-text="确认" cancel-text="取消" @ok="onOk">
+          <a-form ref="formRef" :model="formState" layout="vertical" name="form_in_modal">
+            <a-form-item label="原密码" name="oldPassword" :rules="[{ required: true, message: '请输入您的原密码' }]">
+              <a-input-password v-model:value="formState.oldPassword">
+                <template #prefix>
+                  <LockOutlined class="site-form-item-icon" />
+                </template>
+              </a-input-password>
+            </a-form-item>
+
+            <a-form-item label="新密码" name="newPassword"
+              :rules="[{ required: true, message: '请输入您的新密码' }, { min: 8, max: 16, message: '密码长度为8-16位', trigger: 'blur' }]">
+              <a-input-password v-model:value="formState.newPassword">
+                <template #prefix>
+                  <LockOutlined class="site-form-item-icon" />
+                </template>
+              </a-input-password>
+            </a-form-item>
+
+            <a-form-item label="确认新密码" name="sureNewPassword"
+              :rules="[{ required: true, message: '请再次输入您的新密码' }, { min: 8, max: 16, message: '密码长度为8-16位', trigger: 'blur' }]">
+              <a-input-password v-model:value="formState.sureNewPassword">
+                <template #prefix>
+                  <LockOutlined class="site-form-item-icon" />
+                </template>
+              </a-input-password>
+            </a-form-item>
+          </a-form>
+        </a-modal>
       </div>
     </template>
     <div class="space-align-block">
       <a-space align="center">
         <!-- 头像 -->
-        <div class="avatar" style="margin-left: 500px;">
+        <div class="avatar" style="margin-left: 66px;">
           <a-image :width="128" :src="loginUserInfo?.avatar" />
           <a-card-meta>
             <template #description>
               <div>
-                <input type="file" ref="fileInput" style="display: none;" @change="handleFileChange">
+                <input type="file" ref="fileInput" style="display: none;" :change="handleFileChange">
                 <a-button ghost style="color: black; margin-top: 10px; margin-left: 18px;"
                   @click="openFileInput">修改头像</a-button>
               </div>
@@ -61,15 +100,11 @@
           </a-card-meta>
         </div>
         <!-- 个人详情 -->
-        <a-descriptions :column="1" style="margin-left: 100px;">
-          <a-descriptions-item label="账号">
-            {{ loginUserInfo?.userAccount }}
-          </a-descriptions-item>
-          <a-descriptions-item label="姓名">
-            {{ loginUserInfo?.username }}
-          </a-descriptions-item>
+        <a-descriptions style="margin-left: 50px">
+          <a-descriptions-item label="账号">{{ loginUserInfo?.userAccount }}</a-descriptions-item>
+          <a-descriptions-item label="用户名">{{ loginUserInfo?.username }}</a-descriptions-item>
           <a-descriptions-item label="出生日期">
-            <span v-if="loginUserInfo?.birthday == null">请选择出生日期</span>
+            <span v-if="loginUserInfo?.birthday == null">暂未提供出生日期</span>
             <span v-else>{{ formatTime(loginUserInfo?.birthday) }}</span>
           </a-descriptions-item>
           <a-descriptions-item label="性别">
@@ -81,9 +116,12 @@
             <span v-else-if="loginUserInfo?.role == 'user'">普通用户</span>
             <span v-else>封禁</span>
           </a-descriptions-item>
+          <a-descriptions-item label="手机号">{{ loginUserInfo?.phone }}</a-descriptions-item>
+          <a-descriptions-item label="邮箱">{{ loginUserInfo?.email }}</a-descriptions-item>
           <a-descriptions-item label="积分数">
             {{ loginUserInfo?.pointNumber }}
           </a-descriptions-item>
+          <a-descriptions-item label="每日挑战次数">{{ loginUserInfo?.challengeNum }}次</a-descriptions-item>
         </a-descriptions>
       </a-space>
     </div>
@@ -388,6 +426,8 @@ const onUpdate = () => {
   formState.id = loginUserInfo.value?.id as number;
   formState.birthday = formatTime(loginUserInfo.value?.birthday) as string;
   formState.gender = loginUserInfo.value?.gender as number;
+  formState.phone = loginUserInfo.value?.phone as string;
+  formState.email = loginUserInfo.value?.email as string;
 }
 
 const formRef = ref<FormInstance>();
@@ -398,6 +438,11 @@ const formState = reactive({
   birthday: '',
   username: '',
   gender: 0,
+  phone: '',
+  email: '',
+  oldPassword:'',
+  newPassword:'',
+  sureNewPassword:''
 });
 
 //确认修改
@@ -613,8 +658,16 @@ const onSelect = async (id: number) => {
 
 //点击锚点，切换数据
 const handleClick2: AnchorProps['onClick'] = (e, link) => {
-    e.preventDefault();
+  e.preventDefault();
 };
+
+
+const visible_password = ref(false)
+const onUpdatePassword = () =>{
+  visible_password.value = true;
+  formState.id = loginUserInfo.value?.id as number;
+}
+
 </script>
 
 <style scoped>

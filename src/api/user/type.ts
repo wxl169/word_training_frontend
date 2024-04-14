@@ -43,6 +43,9 @@ export type LoginUserVO = {
     onlineDay: number,
     lastLoginTime: Date,
     token: string,
+    challengeNum:number;
+    phone:string;
+    email:string;
 }
 
 //管理员获取用户信息的条件
@@ -96,6 +99,11 @@ export type UserUpdateByUserRequest = {
   birthday: Date,
   username: string,
   gender: number,
+  phone:string,
+  email:string,
+  oldPassword:string,
+  newPassword:string
+  sureNewPassword:string
 }
 
 
