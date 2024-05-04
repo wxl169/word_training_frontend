@@ -7,12 +7,13 @@
                 </router-link>
                 <span class="title">请选择游戏难度</span>
                 <span style="margin-left: 300px;font-size: 20px;"
-                    v-if="loginUserId != 0 && loginUserId != null">今日剩余挑战次数: {{ challengeNum }} 次</span>
+                    v-if="loginUserId != 0 && loginUserId != null">今日剩余挑战次数: 
+                    <span style="color: red;">{{ challengeNum }} &nbsp;</span>次
+                </span>
             </a-space>
         </div>
 
         <!-- 选择训练难度 -->
-
         <div style="background-color: white; margin-top: 100px;background-color: transparent;margin-left: 70px;">
             <a-row :gutter="16" style="display: flex; justify-content: center;">
                 <a-col :span="8">
@@ -56,8 +57,6 @@
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
 import { ArrowLeftOutlined } from '@ant-design/icons-vue';
-import useUserStore from '@/store/modules/user'
-import pinia from '@/store';
 import { getUserInfo } from '@/api/user';
 
 const route = useRoute()

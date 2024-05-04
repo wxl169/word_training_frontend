@@ -26,18 +26,7 @@
                     </a-col>
                 </a-row>
             </a-checkbox-group>
-
-            <router-link :to="{
-                path: '/word/training/trainingBegin',
-                query: {
-                    mode: mode_selection,
-                    difficulty: difficulty,
-                    wordList: wordList
-                }
-                }">
-                <a-button type="primary" ghost class="begin_button" @click="createTopic(wordTypeList)" >开始训练</a-button>
-            </router-link>
-
+            <a-button type="primary" ghost class="begin_button" @click="createTopic(wordTypeList)">开始训练</a-button>
         </div>
 
 
@@ -52,8 +41,11 @@ import { onMounted } from 'vue';
 import { getWordTypeChilderList } from '@/api/word/word_type';
 import { createWordTraining } from '@/api/word/word_training';
 import useUserStore from "@/store/modules/user";
-import  useTemporaryUserStore  from "@/store/modules/temporary_user";
+import useTemporaryUserStore from "@/store/modules/temporary_user";
 import pinia from "@/store";
+import { message } from 'ant-design-vue';
+import router from '@/router';
+import type { WordTrainingTotalVO } from '@/api/word/word_training/type';
 
 const userStore = useUserStore(pinia);
 const temporaryUserStore = useTemporaryUserStore(pinia);
@@ -65,9 +57,9 @@ const mode_selection = route.query.mode;
 //游戏难度（0：训练模式，1：挑战模式）
 const difficulty = route.query.difficulty;
 
-const wordTypeList = ref(['四级']);
+const wordTypeList = ref([]);
 const wordTypeChilderList = ref([])
-const wordList = ref([]);
+const wordTrainingTotalVO = ref<WordTrainingTotalVO>();
 
 //获取单词类型
 onMounted(async () => {
@@ -81,30 +73,44 @@ const wordTriningBeginRequest = ({
     mode: mode_selection, //模式（0：英语选义，1：中文选义，2：填空拼写）
     difficulty: difficulty, //难度（0：训练模式，1：挑战模式）
     wordTypeList: wordTypeList.value, //单词类型
-    temporaryUserAccount:temporaryUserStore.temporaryUserAccount,//临时用户账号
+    temporaryUserAccount: "",//临时用户账号
 })
 
 //生成题目
-const createTopic = async (wordTypeList:string[]) =>{
+const createTopic = async (wordTypeList: string[]) => {
     wordTriningBeginRequest.wordTypeList = wordTypeList;
     temporaryUserStore.loadTemporaryUserAccountFromLocalStorage();
-     //判断是否都登陆
-     if (userStore.userAccount != "") {
-        if(temporaryUserStore.temporaryUserAccount != ""){
+    //判断是否登陆
+    if (userStore.userAccount != "") {
+        if (temporaryUserStore.temporaryUserAccount != "") {
             wordTriningBeginRequest.temporaryUserAccount = temporaryUserStore.temporaryUserAccount;
             temporaryUserStore.clearAll();
         }
     } else {
-       //获取临时用户
-        if(temporaryUserStore.temporaryUserAccount == ""){
+        //获取临时用户
+        if (temporaryUserStore.temporaryUserAccount == "") {
             //暂无临时用户
-               temporaryUserStore.addTemporaryUserAccount();
+            temporaryUserStore.addTemporaryUserAccount();
         }
         wordTriningBeginRequest.temporaryUserAccount = temporaryUserStore.temporaryUserAccount;
-        wordTriningBeginRequest.isLogin = false;
     }
     const res = await createWordTraining(wordTriningBeginRequest);
+    if (res.code == 0) {
+        wordTrainingTotalVO.value = res.data;
+        // 跳转页面
+        router.push({
+            path: '/word/training/trainingBegin',
+            query: {
+                mode: mode_selection,
+                difficulty: difficulty,
+                wordTrainingVO: JSON.stringify(wordTrainingTotalVO.value.wordTrainingVO), 
+                total: wordTrainingTotalVO.value.total,
+            }
+        });
+    } else {
+        message.error(res.message);
 
+    }
 }
 </script>
 

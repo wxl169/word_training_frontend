@@ -201,7 +201,7 @@ const wordTypeList = reactive({
     pageSize: rolePage.pageSize,
 })
 
-//向后台发送请求获取用户列表信息
+//向后台发送请求获取单词类型列表信息
 const getWordTypeListAll = async (wordTypeListRequest: WordTypeListRequest) => {
     try {
         const response = await getWordTypeList(wordTypeListRequest);
@@ -265,6 +265,7 @@ const onDelete = async (key: number) => {
             // 接受数据成功  
             message.success(response.message || '删除单词类型成功');
             getWordTypeListAll(formState)
+            getWordTypeGroupAlls();
         } else {
             // 处理错误  
             message.error(response.message || '删除单词类型失败');
@@ -337,6 +338,7 @@ const onOk = () => {
                 message.success('修改成功');
                 visible.value = false;
                 getWordTypeListAll(wordTypeList);
+                getWordTypeGroupAlls();
             } else {
                 message.error((await res).message);
             }
@@ -373,6 +375,7 @@ const onAdd = () => {
                 if(formAdd.isGroupName == 1){
                     getWordTypeGroupAlls();
                 }
+                getWordTypeGroupAlls();
             } else {
                 message.error(res.message);
             }

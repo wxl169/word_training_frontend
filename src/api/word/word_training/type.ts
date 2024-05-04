@@ -6,6 +6,7 @@ export type WordTriningBeginRequest = {
 };
 
 export type WordTrainingVO = {
+  questionNumber:number;
   word: string;
   translation: string;
   pronounceEnglish: string;
@@ -15,12 +16,20 @@ export type WordTrainingVO = {
   questionC: string;
   questionD: string;
   questionSet: [];
+  isTrue:number;
+  errorCause:string;
   answer: string;
+};
+
+
+export type WordTrainingTotalVO = {
+  wordTrainingVO: WordTrainingVO;
+  total:number;
 };
 
 
 export type BaseResponseWordTrainingListVO = {
     code?: number;
-    data?: WordTrainingVO[];
+    data?: WordTrainingTotalVO;
     message?: string;
   }

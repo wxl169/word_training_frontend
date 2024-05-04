@@ -16,13 +16,13 @@
           <a-typography strong>
             <a-typography :level="2" style="font-size: 20px;">英语单词训练系统是一款 🛠</a-typography>
             <a-typography :level="3">
-              💼
+              💼提升您的英语词汇量，轻松应对语言挑战。
               <br />
-              💻
+              💻个性化的学习体验，帮助您在单词记忆中取得更快进步。
               <br />
-              🤝
+              🤝通过我们的系统，您将在愉快的学习氛围中不断提高英语水平。
               <br />
-              📈
+              📈无论您是初学者还是进阶者，我们的系统都能够满足您的学习需求，助您迈向流利英语之路。
               <br />
               🏁
             </a-typography>
