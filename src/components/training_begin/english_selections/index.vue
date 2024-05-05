@@ -53,7 +53,7 @@
                 </div>
                 <!-- 答题区 -->
                 <div id="answerArea">
-                    <a-radio-group v-model:value="value1" optionType="button" @change="onChange">
+                    <a-radio-group v-model:value="answer" optionType="button" @change="onChange">
                         <a-radio value="1" class="radioStyle" :title="wordTrainingVO.questionA" style="margin-top: 50px;">{{ wordTrainingVO.questionA }}</a-radio>
                         <a-radio value="2" class="radioStyle" :title="wordTrainingVO.questionB" >{{ wordTrainingVO.questionB }}</a-radio>
                         <a-radio value="3" class="radioStyle" :title="wordTrainingVO.questionC" >{{ wordTrainingVO.questionC }}</a-radio>
@@ -74,9 +74,18 @@
 import { ref, h, computed, createVNode } from 'vue';
 import { SoundOutlined, HeartTwoTone, HeartOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import type { SizeType } from 'ant-design-vue/es/config-provider';
-import { Modal } from 'ant-design-vue';
+import { Modal, message } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
 const size = ref<SizeType>('small');
+import useUserStore from "@/store/modules/user";
+import useTemporaryUserStore from "@/store/modules/temporary_user";
+import pinia from "@/store";
+import { doJugement } from '@/api/word/word_training';
+import router from '@/router';
+
+const userStore = useUserStore(pinia);
+const temporaryUserStore = useTemporaryUserStore(pinia);
+
 
 const isShow = ref(true);
 const route = useRoute()
@@ -88,13 +97,46 @@ const difficulty = route.query.difficulty;
 const total = route.query.total;
 //题目
 const wordTrainingVO = JSON.parse(route.query.wordTrainingVO);
+//用户选择的答案
+const answer = ref<string>('');
+const wordTrainingJudgementDTO = {
+    temporaryUserAccount:'',
+    answer: '',
+    mode: mode_selection,
+    difficulty: difficulty,
+    questionNumber:wordTrainingVO.questionNumber,
+}
 
-const value1 = ref<string>('');
 
 
 // 点击提交答案，进入下一题
-const onChange = () => {
-    console.log(value1.value)
+const onChange = async() => {
+    wordTrainingJudgementDTO.answer = answer.value;
+    temporaryUserStore.loadTemporaryUserAccountFromLocalStorage();
+     //判断是否登陆
+     if (userStore.userAccount != "") {
+            wordTrainingJudgementDTO.temporaryUserAccount = userStore.userAccount;
+    } else {
+        //获取临时用户
+        wordTrainingJudgementDTO.temporaryUserAccount = temporaryUserStore.temporaryUserAccount;
+    }
+    const res = await doJugement(wordTrainingJudgementDTO);
+    if(res.code == 0 && res.data != null && res.data.isTrue == true){
+        //下一题
+        router.push({
+            path: '/word/training/trainingBegin',
+            query: {
+                mode: mode_selection,
+                difficulty: difficulty,
+                wordTrainingVO: JSON.stringify(res.data.wordTrainingVO), 
+                total: res.data.total,
+            }
+        });
+        //刷新页面
+        message.success('回答正确');
+    }else{
+        message.error('回答错误');
+    }
 }
 
 

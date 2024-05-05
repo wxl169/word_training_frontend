@@ -19,13 +19,31 @@ export type WordTrainingVO = {
   isTrue:number;
   errorCause:string;
   answer: string;
+  wordId:number;
 };
 
 
 export type WordTrainingTotalVO = {
   wordTrainingVO: WordTrainingVO;
-  total:number;
+  total:number; 
 };
+
+export type WordTrainingJudgementDTO = {
+  answer:string;
+  temporaryUserAccount:string;
+  questionNumber:number;
+  mode:number;
+  difficulty:number;
+}
+
+export type WordTrainingJudgementVO = {
+  wordTrainingVO:WordTrainingVO;
+  mode:number;
+  difficulty:number;
+  total:number;
+  isTrue:boolean;
+  wordId:number;
+}
 
 
 export type BaseResponseWordTrainingListVO = {
@@ -33,3 +51,10 @@ export type BaseResponseWordTrainingListVO = {
     data?: WordTrainingTotalVO;
     message?: string;
   }
+
+  export type BaseResponseWordTrainingJudgementVO = {
+    code?: number;
+    data?: WordTrainingJudgementVO;
+    message?: string;
+  } 
+
